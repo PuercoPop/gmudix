@@ -1,0 +1,57 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(src/mudix.c)
+AM_INIT_AUTOMAKE(gmudix, 1.0)
+AM_CONFIG_HEADER(conf.h)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_MAKE_SET
+
+dnl Checks for libraries.
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk+-2.0 >= 2.0.0)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(arpa/telnet.h \
+		 conf.h \
+		 errno.h \
+		 fcntl.h \
+		 netdb.h \
+		 netinet/in.h \
+		 signal.h \
+		 sys/socket.h \
+		 sys/time.h \
+		 sys/types.h \
+		 unistd.h) 
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_TYPE_SIGNAL
+AC_CHECK_FUNCS(connect \
+	       gethostbyname \
+	       gettimeofday \
+	       read \
+	       socket \
+	       write)
+
+AC_ARG_ENABLE(debug,
+[  --enable-debug          Turn on debug-symbol generation],
+[case "${enableval}" in
+  yes) debug=true ;;
+  no)  debug=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
+esac],[debug=false])
+AM_CONDITIONAL(DEBUG_SYMBOLS, test x$debug = xtrue)
+
+AC_ARG_ENABLE(iac_debug,
+[  --enable-iac-debug      Enable IAC debug trace],
+[ if test "$enableval" = "yes" ; then
+    AC_DEFINE(IAC_DEBUG, , [Enable IAC debug tracing])
+  fi
+])
+
+AC_OUTPUT(Makefile src/Makefile gmudix.spec)
+
+if test ! -d debian ; then ln -s deb debian ; fi

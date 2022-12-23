@@ -1,0 +1,68 @@
+0.1     - Initial version.
+0.2     - Fixed a bug with character set conversion which caused crashes on systems with a
+          different "locale" than en_US.
+0.3     - Set a left margin for better readability.
+        - Quitting the User-select window will keep the user window open now. Quitting the
+          user window will however re-open the user-select window if it was previously
+          closed.
+        - Port number now defaults to 1024 instead of 0 when creating a new user.
+        - Latest connected user is now selected by default at startup.
+        - Keypad-keys now default to <Mod2><KP_xxx> at user creation. The previous <KP_xxx>
+          keypad macros didn't seem to work on X. 
+        - Bugfix: new users were not added to the user list in a proper way which caused
+          an infinite loop at close on some occassions.
+        - Added a timer mechanism.
+0.4     - Added an optional auto-reconnect feature.
+        - Variables can now be used in input (%variable_name).
+        - Bugfix: connection errors were not shown anymore.
+        - Created the general preference window.
+0.5     - Color bleed fix for muds (smaugs) that do not conform to the ANSI standard. 
+          Thanks to Patrick H. for pointing it out.
+        - Bugfix: auto-reconnect timer didn't always start when required.
+        - Fixed a bug with the reconnect dialog which caused a lockup on some systems. 
+        - Added Debian RPM-package support. Done by Sean Middleditch.
+0.6     - Added customizable characters for command stack, variable sign, command sign
+          and blocks.
+        - Added a maximum buffer size feature (set in maximum lines).
+0.7     - Fixed a bug in the telnet protocol: all IAC's were treated as at least 3 bytes
+          which should have been at least 2 bytes.
+        - Added an #echo command to echo text to the output window.
+        - Added an "all" option to #cont_timer and #stop_timer.
+        - Added a #mute command to mute the informational command output.
+        - Added a #cmd command to process commands on other user windows.
+        - Added login/password trigger option at user-creation.
+        - Added an Edit-button to the user-selector to edit a user without having to go
+          online.
+        - Added a #capture command to send text to an additional window.
+        - Changed the trigger core to check incoming buffers line-by-line instead of big
+          data chunks.
+0.8     - Improved implementation of the IACs. IACs are now processed before character set
+          conversion and are escaped when transmitted within data.
+        - Trigger buffer could overflow in one situation. Fixed.
+        - Added support for ANSI background colors and underlining.
+        - Support for MCCP (version 2) was added.
+0.9     - IAC IAC was not handled right, fixed.
+        - Colors were messed up for servers using unicode character-set, fixed.
+        - Added support for italics escape code (\033[3m).
+        - Added flags for toggling input echo and auto-clear of the input bar.
+        - Added support for the CSI character.
+        - Implemented proper NAWS (window size negotiation) support.
+0.10    - MCCP receive buffer did not expand when required. Inflate did not return a
+          buffer full status code as expected.
+        - Added a #shell command to execute commands in the background.
+1.0     - Added a oneshot timer which deletes itself as it expires. Contributed by Thomas R Kimpton.
+        - Added mnemonics for all the buttons. Contributed by Thomas R Kimpton.
+        - Added shortcuts for cut/paste/copy etc. Contributed by Thomas R Kimpton.
+        - Fixed a bug that caused multiple preference windows to stack.
+        - Fixed a bug in triggers: variables at the end of the trigger weren't parsed
+          right, which could cause corrupted values within that variable.
+        - Changed layout of the user-file, for easier addition of new variables.
+        - Wrapping modes added (Word wrap, Character wrap, No wrap).
+        - Adding the parameter "date" to the #log command, will create log files with
+          a filename starting with the current date.
+        - Added a #cls command to clear user and capture windows.
+        - Improved handling of telnet protocol and ESC sequences.
+        - Added a speed path custom character which allows speed paths to be processed
+          in the input bar.
+        - Added history to a drag down box for easy access to history.
+        - Ported to MS windows.

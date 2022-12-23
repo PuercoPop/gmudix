@@ -1,0 +1,10 @@
+Source: gmudix
+Section: games
+Priority: optional
+Maintainer: Marko Boomstra <m.boomstra@chello.nl>
+Standards-Version: 3.2.1
+
+Package: gmudix
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: GTK+2 MUD client

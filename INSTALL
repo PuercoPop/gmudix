@@ -1,0 +1,18 @@
+Prerequisites
+=============
+
+gMUDix requires the following packages:
+
+ - GTK+ 2.0, available at http://www.gtk.org
+
+ - The GLib, Pango, and Atk libraries, available at the same location as GTK+
+
+Install procedure
+=================
+
+  % gzip -cd gmudix-x.x.tar.gz | tar xvf - # unpack the sources
+  % cd gmudix-x.x		           # change to the toplevel directory
+  % ./configure				   # run the `configure' script
+  % make				   # build gMUDix
+  [ Become root if necessary ]
+  % make install			   # install gMUDix

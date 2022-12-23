@@ -1,0 +1,568 @@
+Documentation
+-------------
+
+0. INTERFACE
+-------------
+In many of the windows there are buttons to perform actions. The underlined
+character in the button title is the accelerator key for that button. Holding
+the ALT key and typing that key will perform the action of that button.
+
+1. USER-SELECTOR WINDOW
+-----------------------
+The user_selector window is the small window that pops up when you startup
+gMUDix. With this window you can load an existing user, or create a new one. 
+All users are saved in the ~/.gMUDix/user/ directory which is automatically
+created when gMUDix first starts up. If you have an existing MUDix user
+file you can place it in the ~/.gMUDix/user/ directory. Re-start gMUDix
+and your user will be visible in the user-selector. MUDix user files will
+be loadable and converted to gMUDix user-files, however gMUDix files are
+not backward compatible within MUDix. Load an existing user by selecting
+the user in the user-selector (left-click) and then press the "Connect"
+button, or double-click on the user. This will open up a new window, the
+user window.
+
+2. USER WINDOW
+--------------
+The user window is the most important window of course. This window handles
+the actual communication with the MUD and presents it to the user. The
+window position and size is automatically saved when the window is closed,
+and restored when the user is loaded again. The vertical scrollbar can
+be used to scroll back into the user view, however this will not create a
+separate scrollback window! By pressing Page-Up the scrollback window
+appears with its own vertical scrollbar. The menu bar on top of the user
+window contains some options (with their shortcuts). Most options will
+however open the preference editor. Finally, the input bar at the bottom of
+the window can be used to give input (surprisingly).
+
+Within the input bar the following shortcuts are available:
+
+Ctrl-A: Select entire line
+Ctrl-L: Delete entire line
+Ctrl-W: Delete the last word
+Ctrl-C: Copy the selection to the clipboard
+Ctrl-V: Paste from the clipboard into the input bar
+Ctrl-X: Cut the selection from the input bar to the clipboard
+
+3. PREFERENCE EDITOR
+--------------------
+The preference editor is used to adjust colors/fonts or to create new
+triggers, macros etc. The left part of the preference editor can be used
+to switch between different editors which will then appear in the right
+side of the editor. Most editors are pretty straight-forward and contain
+a "New", "Delete", "Apply" and "Exit" button. The "New" button just creates
+a new entry into the selected editor-list by taking the input from the
+input bar(s). To update an entry in the editor-list, you would click on
+the entry (it appears in the input bar(s)), change the text in the input
+bar(s) and click on "Apply". Finally, "Delete" will delete the selected
+entry.
+
+4. GENERAL KEYS
+---------------
+This section shortly describes the general keys within gMUDix. Note
+that all keys (except Page-Up, Page-Down, Esc and Tab) can be overriden
+by the user with the MACRO command.
+
+Page-Up		Split up the main window into a scrollback part
+		and a main window part. Also used to scroll up
+		into the scrollback view.
+Page-Down	Scroll the scrollback view down. If the end is
+		reached, the scrollback window is automatically
+		closed.
+Esc		Closes the scrollback window if it is open.
+Keypad: -	Default keywalk: u
+Keypad: +	Default keywalk: d
+Keypad: 7	Default keywalk: nw
+Keypad: 8	Default keywalk: n
+Keypad: 9	Default keywalk: ne
+Keypad: 4	Default keywalk: w
+Keypad: 6	Default keywalk: e
+Keypad: 1	Default keywalk: sw
+Keypad: 2	Default keywalk: s
+Keypad: 3	Default keywalk: se
+		NOTE: as of version 0.3 keypad keys default to: <Mod2><KP_xxx>
+		instead of <KP_xxx> (this didn't seem to work in X). If your
+		keypad doesn't work, you can change the keypad-keys in the macro
+		editor.
+Arrow-Up	Select previous command in the history buffer.
+Arrow-Down	Select next command in the history buffer.
+Tab		Perform a Tab-completion (see also TAB).
+F10		Enter the window menu.
+Ctrl-Q		Close the user window.
+Ctrl-S		Save the user file (automatically saved when window
+		is closed).
+Ctrl-O		Pop up the user-selector window.
+Ctrl-Alt-G	Open the preference editor.
+Ctrl-Alt-A	Enter the alias preference editor.
+Ctrl-Alt-M	Enter the macro preference editor.
+Ctrl-Alt-P	Enter the path preference editor.
+Ctrl-Alt-B	Enter the tab completion preference editor.
+Ctrl-Alt-I	Enter the timer preference editor.
+Ctrl-Alt-T	Enter the trigger preference editor.
+Ctrl-Alt-V	Enter the variable preference editor.
+Ctrl-Alt-C	Enter the color preference editor.
+Ctrl-Alt-F	Enter the fonts preference editor.
+Ctrl-Alt-H	Enter the customizable characters preference editor.
+Alt-R		Reconnect.
+Alt-D		Disconnect.
+
+5. COMMAND LINE
+---------------
+This section describes the command-line commands that can be used
+within gMUDix (and most also in MUDix). Note that this section also
+serves as an explanation of the features of gMUDix since almost
+all features have a corresponding command-line command.
+
+A command in gMUDix starts with a '#' (configurable).
+Following is a list of the available commands within gMUDix and a
+description + examples on how to use the command.
+
+{ } Is used within gMUDix to encapsulate a string containing
+    spaces. i.e.: {gossip gMUDix rocks!} without the { } this
+    would be treated as 3 arguments: 1. gossip, 2. gMUDix and
+    3. rocks!. The { } Characters are configurable.
+|   Is used withing gMUDix as the stacking command. i.e.: 
+    {swoon Gizbo|snog Gizbo} will first swoon at Gizbo followed
+    by snogging Gizbo. The command stack character is configurable.
+%   Is used within gMUDix to indicate a variable. i.e. #echo 0 %HP
+    The variable character is configurable.      
+%%  Is used within gMUDix to escape a variable character.
+
+Note that when triggers, aliases etc. are created from the command
+line and contain variables, that the variables need to be escaped (%%).
+This is due to the fact that input is always parsed for variables
+and when found are replaced with their value. Using the escape character
+will allow variables to be placed inside other commands without being
+replaced with their actual value.
+
+5.1 ALIAS
+---------
+Syntax: #alias {alias name} {response}
+
+An alias is a textual replacement (macro) for one or more commands
+which you use a lot on your MUD. For example taking a potion from
+your bag and quaffing it can get very dreadful when you have to
+continously type it out. An alias can support up to 10 variables
+that are passed to the alias on the command-line. Those variables
+can then be used inside the response of the alias. This can be
+achieved by using the special vriables %0-%9 (% is configurable).
+This can be best explained with an example:
+
+  #alias {gb} {get %%0 bag|quaff %%0}
+  Creates an alias called gb with response: {get %0 bag|quaff %0}
+    Command:
+      gb potion
+    Result:
+      get potion bag
+      quaff potion
+
+  #alias {gb2} {get %%0 %%1|wield %%0|drop %%1}
+  Creates an alias called gb2 with response: {get %0 %1|wield %0|drop %1}
+    Command:
+      gb2 sword sack
+    Result:
+      get sword sack
+      wield sword
+      drop sack
+
+5.2 CONT_TIMER
+--------------
+Syntax: #cont_timer <time|all>
+
+Continues (if stopped) all timers with the given time. If time is "all" then
+all timers are continued. See also TIMERS for a more detailed description 
+about timers.
+
+5.3 DISTRIG
+-----------
+Syntax: #distrig <level>
+
+Disables all triggers of the specified level. See TRIGGERS for a
+description about trigger levels.
+
+5.4 ENATRIG
+-----------
+Syntax: #enatrig <level>
+
+Enables all triggers of the specified level. See TRIGGERS for a
+description about trigger levels.
+
+5.5 FOR
+-------
+Syntax: #for {n:k} {command}
+
+Perform 'command' for as long 'n' is < 'k' and incrementing 'n' by
+1 each time 'command' is executed. Note that both 'n' and 'k' need
+to be numeric (or variables as defined with VARIABLE). The current
+count value can be used inside the command by using %0, which is 
+the only % usable in FOR. This can best be explained with an example
+again:
+
+  #for {0:5} {gossip Count is %%0.}
+    Result:
+      gossip Count is 0.
+      gossip Count is 1.
+      gossip Count is 2.
+      gossip Count is 3.
+      gossip Count is 4.
+
+5.6 IF
+------
+Syntax: #if {expression} {do} {else}
+
+Performs 'do' if the 'expression' is TRUE or 'else' if it was
+evaluated to FALSE. 'Expression' consists out of an left value
+and a right value, separated by an operand. Operand can be one
+of: < (lesser), > (greater), <= (lesser or equal), >= (greater or
+equal), != (inequal), == (equal). For example:
+
+  {500>200}	True
+  {30<=20}	False
+
+Note that the left and right value don't need to be numeric:
+
+  {Gizbo==Gizbo}	True
+  {Gizbo!=Enigma}	True
+  {Gizbo==Gizbo }	False (due to space at end of Gizbo)
+  {Gizbo>Enigma}	True
+
+Also, values can be a variable as set with the VARIABLE command.
+Note that variables do not need to start with a % inside an
+IF expression. For example, lets assume that HP is a variable
+previously set to 50:
+
+  {HP<100}		True
+  {HP>=50}		True
+  {HP!=50}		False
+
+  #if {HP>50} {say yes!} {say no :(}
+  Result:
+    say no :(
+
+  #if {%%HP==50} {say yes!} {say no :(}
+  Result:
+    say yes!
+
+5.7 LOG
+-------
+Syntax: #log {filename}
+        #log
+
+When an argument is supplied to LOG it is treated as a filename
+and ".log" is appended and the file is created in: ~/.gMUDix/
+If the file already exists, the file is opened and all data is
+appended to the file. When the log is on all text that is sent
+to the main user window is also appended to the file (excluding
+ANSI color codes). To stop logging, just call LOG with no
+argument supplied.
+
+5.8 MACRO
+---------
+Syntax: #macro {key string} {response}
+
+A macro is like an ALIAS except that it can be bound to one single
+key stroke (or combination of keys) and it does not accept variables
+like ALIAS has %0 to %9. You can bind a very common string like
+"flee" to F1 or any other key. Note that the most easiest way would
+be to use the Preference editor to create macros (Ctrl-M) as you can
+press your key combination into the key sequence input bar by pressing
+the key combination you want. However, it is also possible to create
+key combinations with the MACRO command. To get a key combination
+with the CTRL key you need to add <Control> to the 'key string'. Other
+possibilities are: <Shift> and <Alt>. The Macro Preference Editor will
+automatically convert key strokes to a character string. Examples:
+
+  #macro {<Control>F1} {bonk Gizbo}
+  #macro {<Shift>F1} {tickle Gizbo}
+  #macro {F1} {snog Gizbo}
+
+  F1 will result in: snog Gizbo
+  Ctrl-F1 results in: bonk Gizbo
+  Shift-F1 results in: tickle Gizbo
+
+5.9 PATH
+--------
+Syntax: #path {path name} {path string}
+        #path {path name}
+
+A path is a special sequence of directions (optionally combined with
+commands) that are sent to the MUD in one go. The 'path name' is a
+string indicating the path, which is later used to execute the path.
+A path is executed by supplying only the 'path name'. To create a
+path, both a 'path name' and a 'path string' need to be supplied. A
+'path string' consists of a number (optional) + a command/direction.
+The number indicates the number of times the command/direction needs
+to be executed. A command always needs to be surrounded by brackets
+({}). Note that directions must be one of: n, e, s, w, d, u. If
+your MUD supports NW, SE etc. then you need to surround them by
+brackets also ({nw} etc.). Example:
+
+  #path {gnomes} {{/}5n6e2{se}n3w{open door}4n2{gossip I am here!}}
+  #path {gnomes}
+    Result:
+    /
+    n
+    n
+    n
+    n
+    n
+    e
+    e
+    e
+    e
+    e
+    e
+    se
+    se
+    n
+    w
+    w
+    w
+    open door
+    n
+    n
+    n
+    n
+    gossip I am here!
+    gossip I am here!
+
+Note that you can also have gMUDix process your input as a path. This
+is done with the speed path character ($ by default, but customizable).
+When you start your input with a $ character, the text following the
+$ character will be treated as a path. Example:
+
+  $5newn{open door}n
+    Result:
+    n
+    n
+    n
+    n
+    n
+    e
+    w
+    n
+    open door
+    n
+
+5.10 READ
+---------
+Syntax: #read {filename}
+
+Reads the file indicated by filename and executes every line in the file
+as a command and executes it. This is useful for creating script files
+that toggle triggers on/off or change variables etc. etc.
+
+5.11 STOP_TIMER
+---------------
+Syntax: #stop_timer <time|all>
+
+Stops all running timers with the given time. If time is "all" then all timers
+are stopped. See also TIMERS for a better description of timers.
+
+5.12 TAB
+--------
+Syntax: #tab {tab completion}
+
+Creates a new tab completion. A tab completion is a string which can be
+automatically generated out of at least one character when hitting TAB.
+Example:
+
+  #tab {Quarixxomidolius}
+    Command:
+      bonk q<tab>
+    Result:
+      bonk quarixxomidolius
+
+  #tab {Gizbo}
+    Command:
+      swoon Giz<tab>
+    Result:
+      swoon Gizbo
+
+5.13 TIMER
+------------
+Syntax: #timer <time> <reload> {response}
+
+All timers in gMUDix have a resolution of 1 second. This means that the
+fastest timer you can create is 1 second. Once you create a timer it is
+added to the timer list and can then be stopped/deleted/changed in the
+Timer-Preference Editor. Time indicates the interval of the timer (1 sec
+resolution). Reload indicates the number of times the timer should reload
+when it expires. Thus a reload of 0 means, run the timer only once. A
+reload value of -1 indicates a continuous timer, thus will always reload
+when it expires. A reload of -2 indicates a oneshot timer, which deletes
+itself when it expires. The response is the actions that are to be executed
+when the timer expires.
+Example:
+
+  #timer 60 2 {smack Gizbo}
+    Result:
+      1 minute later: smack Gizbo
+      <reload happens here>
+      1 minute later: smack Gizbo
+      <reload happens here>
+      1 minute later: smack Gizbo
+  
+  #timer 3600 -1 {#echo 0 one hour expired...}
+    Result:
+      Continuously, each hour is echo'ed: one hour expired...
+
+See also: STOP_TIMER, CONT_TIMER.
+
+5.14 TRIGGER
+------------
+Syntax: #trigger <level> {trigger} {response}
+
+A trigger is an automatic response mechanism that reacts on input from
+the MUD. When a certain text is received it will automatically perform
+a response. A good example for this is the login procedure. You'd
+normally want to have gMUDix log on your character automatically when
+you connect to your MUD. The level of the trigger specifies a group of
+triggers. You are free to choose the level of your triggers, however
+there are two special levels available, level -1 and -2. Level -1 is the
+LOGIN trigger and level -2 is the LOGIN_PASSWORD trigger. Both triggers
+both get disabled after they triggered, and also are automatically
+enabled at connect/reconnect. So if you want a trigger to have this same
+behaviour, give it level -1 or -2. In the Trigger Preference Editor this
+can also be achieved by pressing the Login/Password Level buttons. Smart
+grouping of triggers (giving them the same level) allows certain groups
+to be enabled/disabled by using DISTRIG/ENATRIG.
+
+Normally triggers are checked when a NEWLINE (character 10) is received.
+However, this won't work for login triggers as they are usually not followed
+by a NEWLINE character. Triggers with a negative level are therefore also
+checked on input that was received which was not terminated by a NEWLINE.
+If you also want to have triggers that check on input even if there was
+no terminating NEWLINE, then give the trigger a negative level. Triggers
+with positive levels are preferred though and usually only the login triggers
+should have negative levels.
+
+It is possible to capture text from the MUD into the variables %0 to %9
+and use them within the response.
+
+Finally an example:
+
+  #trigger 0 {%%0 tells you '%%1'} {say %%0 just told me this: %%1}
+  Creates a trigger on level 0: {%0 tells you '%1'} {say %0 just told me this: %1}
+  Incoming text:
+    Gizbo the wicked tells you 'Enigma is a sucka!'
+  Response:
+    say Gizbo the wicked just told me this: Enigma is a sucka!
+
+  #trigger 200 {HP=%%0/%%1 Mana=%%2> } {#if {%%0<100} {say HELP!!! my HP is %%0/%%1 Mana=%%2|#distrig 200}}
+  Incoming text (probably your prompt):
+    HP=25/380 Mana=210>
+  Response:
+    say HELP!!! my HP is 25/380 Mana=210
+    #distrig 200
+
+See also: ENATRIG, DISTRIG.
+
+5.15 VARIABLE
+-------------
+Syntax: #variable {variable name} {value}
+
+A variable is a string that holds another string or a number. This variable
+can then be used in your input to use its value. Variables can be updated
+silently within triggers or inside other commands. Example:
+
+  #variable {EXP} {0}
+  #trigger 200 {Experience points=%%0} {#variable {EXP} {%%0}}
+  #macro {F1} {#if {%%EXP>1000} {'YES!! I can level!}
+
+  #variable {test1} {abc}
+  #variable {test2} {123}
+  Input:
+    say I made 2 variables: %test1 and %test2.
+  Result:
+    say I made 2 variables: abc and %test2.
+    Note: %test2 was not evaluated right because the input processor
+          looks up the variable '%test2.' (note the dot: .).
+  Input:
+    say I made 2 variables: %%test1=%{test1} and %%test2=%{test2}.
+  Result:
+    say I made 2 variables: %test1=abc and %test2=123.
+    Note: using the { } around a variable-name fixes the 'dot' problem.
+    Note: using two % signs (%%) escapes an % sign, thus results in one %.
+
+  #variable {this is a strange variable} {indeed it is}
+  Input:
+    #if {%{this is a strange variable}=={indeed it is}} {say it's equal to "indeed it is"}
+  Result:
+    say it's equal to "indeed it is"
+
+Note that variables may NOT start with a digit. This is due to the fact that
+%0 to %9 are reserved for arguments to input.
+
+5.16 ECHO
+---------
+Syntax: #echo <color> {text}
+
+Echo can be used to echo the given text to the user window in the specified
+color. Color is a number ranging from 0 (default INFO color) to 15. The text
+is not sent to the MUD, but is only printed to the user window.
+
+5.17 MUTE
+---------
+Syntax: #mute {on/off}
+
+This command mutes/de-mutes the informational command output that is displayed
+when a command is exectuted. Mute with no argument toggles mute.
+
+5.18 CMD
+--------
+Syntax: #cmd <id> {command line}
+
+With this command it is possible to process the command line with another
+user without having to switch between the windows. The command line is
+processed as if it was typed into the input bar. However, the input will
+not appear in the history buffer of the other user. The 'id' is the ID of
+the user as it appears in the window title.
+
+5.19 CAPTURE
+------------
+Syntax: #capture {title} <color> {text (optional)}
+
+Sends text with the given color to a capture window with the specified title.
+If the capture window does not exist yet, it is created and displayed. If no
+text is given, the current text in the trigger buffer is sent to the capture
+window. This is useful in combination with triggers. Color is a number ranging
+from 0 (default INFO color) to 15.
+
+Note that multiple users can make use of the same capture window, however, the
+capture window inherits settings from the user as it is created.
+
+Example:
+
+  Input:
+    #trigger 0 {tells you} {#capture Tells 12}
+  Result:
+    Whenever the text "tells you" is received, the whole line which contains
+    "tells you" is sent to the capture window with the title "Tells" and is
+    displayed in color 12.
+
+5.20 ONESHOT
+------------
+Syntax: #oneshot <time> {response}
+
+This is simple a timer that expires after the time is elapsed and on
+which the response is processed. This is useful for triggers, because
+otherwise a new timer would be created each time the trigger fired.
+
+Example:
+
+  #alias {dep*} {#enatrig 500;score;#oneshot 2 {#distrig 500}}
+
+'dep*' enables a trigger that parses the result of the score command
+and builds a set of deposit commands and executes it. The oneshot
+delays the trigger disable until the mud can respond with the result
+of the score command. Without the oneshot, the commands execute too
+quickly for the results of the score command to be parsed.
+
+
+5.21 HELP ?
+-----------
+Syntax: #help
+        #?
+
+Prints a list of commands and a short description.
+ 

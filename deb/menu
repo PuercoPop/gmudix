@@ -1,0 +1,2 @@
+?package(gmudix):needs=X11 section=Apps/Games\
+  title="gMUDix" command="/usr/bin/gmudix"

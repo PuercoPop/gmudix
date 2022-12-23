@@ -1,0 +1,84 @@
+gmudix (1.0-1) stable; urgency=low
+
+  * Added a oneshot timer which deletes itself as it expires. Contributed by Thomas R Kimpton.
+  * Added mnemonics for all the buttons. Contributed by Thomas R Kimpton.
+  * Added shortcuts for cut/paste/copy etc. Contributed by Thomas R Kimpton.
+  * Fixed a bug that caused multiple preference windows to stack.
+  * Fixed a bug in triggers: variables at the end of the trigger weren't parsed
+    right, which could cause corrupted values within that variable.
+  * Changed layout of the user-file, for easier addition of new variables.
+  * Wrapping modes added (Word wrap, Character wrap, No wrap).
+  * Adding the parameter "date" to the #log command, will create log files with
+    a filename starting with the current date.
+  * Added a #cls command to clear user and capture windows.
+  * Improved handling of telnet protocol and ESC sequences.
+  * Added a speed path custom character which allows speed paths to be processed
+    in the input bar.
+  * Added history to a drag down box for easy access to history.
+  * Ported to MS windows.
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Sun, 14 Mar 2004 15:00:00 +0100
+
+gmudix (0.10-1) stable; urgency=low
+
+  * Receive buffer for MCCP did not expand when buffer was full, fixed. 
+  * Added #shell command for running commands on the background.
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Sun, 09 Dec 2002 19:21:00 +0100
+
+gmudix (0.9-1) stable; urgency=low
+
+  * IAC IAC was not handled right, fixed.
+  * Colors were messed up for servers using unicode character-set, fixed.
+  * Added support for italics escape code (\033[3m).
+  * Added flags for toggling input echo and auto-clear of the input bar.
+  * Added support for the CSI character.
+  * Implemented proper NAWS (window size negotiation) support.
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Sun, 27 Oct 2002 18:57:00 +0100
+
+gmudix (0.8-1) stable; urgency=low
+
+  * Improved implementation of the IACs. IACs are now processed before character set
+    conversion and are escaped when transmitted within data.
+  * Trigger buffer could overflow in one situation. Fixed.
+  * Added support for ANSI background colors and underlining.
+  * Support for MCCP (version 2) was added.
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Sat, 26 Oct 2002 11:27:00 +0100
+
+gmudix (0.7-1) stable; urgency=low
+
+  * Fixed a bug in the telnet protocol: all IAC's were treated as at least 3 bytes
+  * Added an "all" option to #cont_timer and #stop_timer.
+  * Added a #mute command to mute the informational command output.
+  * Added a #cmd command to process commands on other user windows.
+  * Added login/password trigger option at user-creation.
+  * Added an Edit-button to the user-selector to edit a user without having to go
+    online.
+  * Added a #capture command to send text to an additional window.
+  * Changed the trigger core to check incoming buffers line-by-line instead of big
+    data chunks.
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Sun, 20 Oct 2002 16:15:00 +0100
+
+gmudix (0.6-1) unstable; urgency=low
+
+  * Added customizable characters for command stack, variable sign, command sign
+    and blocks.
+  * Added a maximum buffer size feature (set in maximum lines).
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Fri, 09 Aug 2002 16:30:00 +0100
+
+gmudix (0.5-1) unstable; urgency=low
+
+  * Color bleed fix for muds (smaugs) that do not conform to the ANSI standard. 
+  * Bugfix: auto-reconnect timer didn't always start when required.
+  * Fixed a bug with the reconnect dialog which caused a lockup on some systems. 
+  * Added Debian RPM package support. By Sean Middleditch.
+
+ -- Marko Boomstra <m.boomstra@chello.nl>  Tue, 28 May 2002 19:01:00 +0100
+
+Local variables:
+mode: debian-changelog
+End:
