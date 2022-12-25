@@ -22,27 +22,20 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#if !defined(WIN32)
-  #include <dirent.h>
-  #include <unistd.h>
-#else
-  #include <windows.h>
-#endif
+#include <dirent.h>
+#include <unistd.h>
 #include <time.h>
 #include "mudix.h"
-
 
 /* so it can be available in all functions */
 static GtkWidget       *gui_main_window;
 static GtkTreeModel    *gui_main_model;
-
 
 #define BUTTON_CONNECT  "_Connect"
 #define BUTTON_EDIT     "_Edit"
 #define BUTTON_NEW      "_New"
 #define BUTTON_DELETE   "_Delete"
 #define BUTTON_EXIT     "E_xit"
-
 
 typedef enum
 {
@@ -288,12 +281,7 @@ static void gui_main_dialog_new(void)
             while (1)
             {
                 struct stat buf;
-
-#if !defined(WIN32)
                 sprintf(path, "%s/" USER_PATH "%s_%d.usr", getenv("HOME"), str, i);
-#else
-                sprintf(path, "./%s_%d.usr", str, i);
-#endif
                 if (stat(path, &buf))
                 {
                     /* file does not exist or there was an error */
@@ -493,62 +481,6 @@ static gboolean gui_main_row_do_update(GtkTreeModel *model,
     return FALSE;
 }
 
-
-#if defined(WIN32)
-/* scandir function to be compatible with the linux scandir function */
-
-struct dirent
-{
-  char d_name[MAX_INPUT_LEN];
-};
-
-static int scandir(char *path, struct dirent ***namelist)
-{
-    HANDLE          Hnd;
-    WIN32_FIND_DATA WFD;
-    int             i = 0;
-
-    /* max 128 pointers to dirent structs */
-    *namelist = malloc(128*sizeof(void *));
-
-    /* set the new current directory */
-    SetCurrentDirectory(path);
-
-    /* start the search */
-    Hnd = FindFirstFile("*.usr", &WFD);
-
-    if (Hnd != INVALID_HANDLE_VALUE)
-    {
-      /* browse through the directory */
-      do
-      {
-        /* check that it's not a directory */
-        if (!(WFD.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-        {
-            struct dirent *pFile = (struct dirent *)malloc(sizeof(struct dirent));
-
-            strcpy(pFile->d_name, WFD.cFileName);
-
-            (void *)(*namelist)[i++] = pFile;
-        }
-      } while (FindNextFile(Hnd, &WFD) && i < 128);
-
-      /* end the search to this call */
-      FindClose(Hnd);
-    }
-
-    if (i == 0)
-    {
-        i--;
-        free(*namelist);
-    }
-
-    return i;
-}
-
-#endif
-
-
 static GtkTreeModel *gui_main_create_model(int *latest)
 {
     GtkListStore    *store;
@@ -565,29 +497,17 @@ static GtkTreeModel *gui_main_create_model(int *latest)
                                G_TYPE_INT,
                                G_TYPE_STRING,
                                G_TYPE_STRING);
-
-#if !defined(WIN32)
     /* scan our directory for files */
     sprintf(path, "%s/" USER_PATH, getenv("HOME"));
 
     n = scandir(path, &namelist, 0, alphasort);
-#else
-    /* scan our directory for files */
-    sprintf(path, ".");
-
-    n = scandir(path, &namelist);
-#endif
-
     if (n < 0)
     {
-#if !defined(WIN32)
         char dir[MAX_FILEPATH];
 
         /* our user dir is non existing - create it */
         sprintf(dir, "mkdir -p %s", path);
         system(dir);
-#endif
-
         /* set latest to -1 */
         *latest = -1;
     }
@@ -598,21 +518,12 @@ static GtkTreeModel *gui_main_create_model(int *latest)
         for (i=0; i<n; i++)
         {
             struct stat buf;
-
-#if !defined(WIN32)
             sprintf(path, "%s/" USER_PATH "%s", getenv("HOME"), namelist[i]->d_name);
-#else
-            sprintf(path, "./%s", namelist[i]->d_name);
-#endif
             if (stat(path, &buf) == -1)
             {
                 perror("stat");
             }
-#if !defined(WIN32)
             else if (!S_ISDIR(buf.st_mode))  /* regular file */
-#else
-            else  /* we already checked for dir */
-#endif
             {
                 char  time[TIME_LEN];
                 char *site = NULL;
