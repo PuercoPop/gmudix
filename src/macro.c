@@ -145,9 +145,9 @@ void free_macro(USER *user, MACRO *pMacro)
     }
     else
     {
-        for (macro = user->macro_list; macro; macro = macro->next) 
+        for (macro = user->macro_list; macro; macro = macro->next)
         {
-    	    if (macro->next == pMacro) 
+    	    if (macro->next == pMacro)
             {
                 macro->next = pMacro->next;
                 break;
@@ -198,7 +198,7 @@ MACRO *macro_lookup(USER *user, guint key, guint state)
 {
     MACRO *iMacro;
 
-    for (iMacro = user->macro_list; iMacro; iMacro = iMacro->next) 
+    for (iMacro = user->macro_list; iMacro; iMacro = iMacro->next)
     {
     	if (iMacro->key == key && iMacro->state == state)
         {
@@ -231,4 +231,3 @@ bool process_macro(USER *user, guint key, guint state)
         return FALSE;
     }
 }
-

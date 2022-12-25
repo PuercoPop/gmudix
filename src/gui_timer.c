@@ -495,7 +495,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_object_unref(G_OBJECT(model));
 
     g_signal_connect(G_OBJECT(view), "cursor-changed",
-                     G_CALLBACK(gui_timer_row_selected), user);    
+                     G_CALLBACK(gui_timer_row_selected), user);
 
     /* add columns to the tree view */
     gui_timer_add_columns(GTK_TREE_VIEW(view));
@@ -554,7 +554,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 4);
@@ -565,7 +565,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 4);
@@ -576,7 +576,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 4);
@@ -609,7 +609,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -620,7 +620,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -631,7 +631,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -642,7 +642,7 @@ GtkWidget *gui_timer_create(USER *user)
     g_signal_connect(G_OBJECT(button), "activate",
                      G_CALLBACK(gui_timer_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_timer_button_release), user);    
+                     G_CALLBACK(gui_timer_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);

@@ -277,15 +277,15 @@ typedef enum
 
 
 /* network status */
-typedef enum 
+typedef enum
 {
     /* connection status */
     NET_CLOSED,
     NET_CONNECTED,
 
     /* connection errors */
-    NET_CONNECT_FAILURE, 
-    NET_GETHOSTBYNAME, 
+    NET_CONNECT_FAILURE,
+    NET_GETHOSTBYNAME,
     NET_NO_SOCKET,
 
     /* max net status numbers */
@@ -316,7 +316,7 @@ typedef enum
 
 
 /* customizable characters */
-typedef enum 
+typedef enum
 {
     CUST_CMD_STACK,
     CUST_VAR_SIGN,
@@ -518,7 +518,7 @@ extern USER      *user_list;
 #define get_sb_view(user)               (gtk_bin_get_child(GTK_BIN((user)->gui_user.g_scrollback)))
 #define destroy_with_signal(object)     (g_signal_emit_by_name(G_OBJECT(object), "destroy"))
 #define VALID_ANSI(color)               ((color) != ANSI_COLOR_NONE)
-#define MCCP_USER(user)                 ((user)->net.stream)        
+#define MCCP_USER(user)                 ((user)->net.stream)
 
 
 struct history_type
@@ -622,7 +622,7 @@ typedef struct
 
 
 /* data structure containing all data for a user */
-struct user_type 
+struct user_type
 {
     USER          *next;
     GUI_USER       gui_user;
@@ -713,7 +713,7 @@ struct tab_type
 
 
 /* variable data */
-struct var_type 
+struct var_type
 {
     VAR         *next;
     gchar       *name;
@@ -722,7 +722,7 @@ struct var_type
 
 
 /* command table data */
-struct cmd_table_type 
+struct cmd_table_type
 {
     gchar       *cmd;
     void       (*function)(USER *user, int index, gchar *args);

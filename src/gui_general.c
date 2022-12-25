@@ -107,8 +107,8 @@ static void gui_gen_spin_changed(GtkSpinButton *spinbutton, gint *value)
 }
 
 
-static gboolean gui_gen_entry_string(GtkEntry         *entry, 
-                                     GdkEventFocus    *event, 
+static gboolean gui_gen_entry_string(GtkEntry         *entry,
+                                     GdkEventFocus    *event,
                                      gchar           **string)
 {
     G_CONST_RETURN gchar *text;
@@ -118,7 +118,7 @@ static gboolean gui_gen_entry_string(GtkEntry         *entry,
     g_mutex_lock(user_network_mutex);
 
     text = gtk_entry_get_text(entry);
-    
+
     free(*string);
     *string = strdup(text);
 
@@ -284,4 +284,3 @@ GtkWidget *gui_general_create(USER *user)
 
     return mainbox;
 }
-

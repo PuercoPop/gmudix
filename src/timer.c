@@ -54,7 +54,7 @@ static gboolean update_timers(gpointer data)
             else if (timer->relcnt == TIMER_ONESHOT)
             {
                 gui_timer_remove(user, timer);
-		
+
                 free_timer(user, timer);
             }
             else if (timer->relcnt > 0)
@@ -130,7 +130,7 @@ TIMER *new_timer(USER *user)
     {
 	return NULL;
     }
-     
+
     timer->next      = user->timer_list;
     user->timer_list = timer;
 
@@ -195,9 +195,9 @@ void free_timer(USER *user, TIMER *timer)
     }
     else
     {
-        for (lookup = user->timer_list; lookup; lookup = lookup->next) 
+        for (lookup = user->timer_list; lookup; lookup = lookup->next)
         {
-            if (lookup->next == timer) 
+            if (lookup->next == timer)
             {
                 lookup->next = timer->next;
                 break;

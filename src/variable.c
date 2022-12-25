@@ -117,9 +117,9 @@ void free_var(USER *user, VAR *var)
     }
     else
     {
-        for (iVar = user->vars_list; iVar; iVar = iVar->next) 
+        for (iVar = user->vars_list; iVar; iVar = iVar->next)
         {
-            if (iVar->next == var) 
+            if (iVar->next == var)
             {
                 iVar->next = var->next;
                 break;
@@ -165,7 +165,7 @@ VAR *var_lookup(USER *user, gchar *var)
     }
 
     /* look up the variable */
-    for (iVar = user->vars_list; iVar; iVar = iVar->next) 
+    for (iVar = user->vars_list; iVar; iVar = iVar->next)
     {
     	if (!strcmp(var, iVar->name))
         {
@@ -175,4 +175,3 @@ VAR *var_lookup(USER *user, gchar *var)
 
     return iVar;
 }
-

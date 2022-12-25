@@ -72,8 +72,8 @@ static GdkColor default_color_table[NR_ANSI_COLORS] =
 };
 
 
-static gboolean gui_color_button(GtkWidget      *widget, 
-                                 GdkEventButton *event, 
+static gboolean gui_color_button(GtkWidget      *widget,
+                                 GdkEventButton *event,
                                  GdkColor       *color)
 {
     GtkWidget         *dialog;
@@ -81,7 +81,7 @@ static gboolean gui_color_button(GtkWidget      *widget,
     gint               response;
     USER              *user;
     ANSI_COLORS        i;
-    
+
     /* fetch the user that owns this color! ;) */
     user = get_user_with_color(color);
     if (!user)
@@ -94,16 +94,16 @@ static gboolean gui_color_button(GtkWidget      *widget,
     dialog = gtk_color_selection_dialog_new("Changing color");
 
     /* pop up in centre of parent */
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), 
+    gtk_window_set_transient_for(GTK_WINDOW(dialog),
                                  GTK_WINDOW(user->gui_pref.g_preference));
-  
+
     colorsel = GTK_COLOR_SELECTION(GTK_COLOR_SELECTION_DIALOG(dialog)->colorsel);
 
     /* give pointers to the color to the colorselection */
     gtk_color_selection_set_previous_color(colorsel, color);
     gtk_color_selection_set_current_color(colorsel, color);
     gtk_color_selection_set_has_palette(colorsel, TRUE);
-  
+
     response = gtk_dialog_run(GTK_DIALOG(dialog));
 
     if (response == GTK_RESPONSE_OK)
@@ -112,7 +112,7 @@ static gboolean gui_color_button(GtkWidget      *widget,
         gtk_color_selection_get_current_color(colorsel, color);
         gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, color);
     }
-  
+
     gtk_widget_destroy(dialog);
 
     /* is it a default fg/bg color? */
@@ -133,9 +133,9 @@ static gboolean gui_color_button(GtkWidget      *widget,
             if (&user->gui_user.colors[i] == color)
             {
                 /* we now got the index - use it for the tag table :) */
-                g_object_set(user->gui_user.g_fg_color_tags[i], "foreground-gdk", 
+                g_object_set(user->gui_user.g_fg_color_tags[i], "foreground-gdk",
                              &user->gui_user.colors[i], NULL);
-                g_object_set(user->gui_user.g_bg_color_tags[i], "background-gdk", 
+                g_object_set(user->gui_user.g_bg_color_tags[i], "background-gdk",
                              &user->gui_user.colors[i], NULL);
                 break;
             }
@@ -168,9 +168,9 @@ static void gui_color_button_release(GtkButton *button, USER *user)
         for (i=0; i<NR_ALL_COLORS; i++)
         {
             /* we now got the index - use it for the tag table :) */
-            g_object_set(user->gui_user.g_fg_color_tags[i], "foreground-gdk", 
+            g_object_set(user->gui_user.g_fg_color_tags[i], "foreground-gdk",
                          &user->gui_user.colors[i], NULL);
-            g_object_set(user->gui_user.g_bg_color_tags[i], "background-gdk", 
+            g_object_set(user->gui_user.g_bg_color_tags[i], "background-gdk",
                          &user->gui_user.colors[i], NULL);
         }
 
@@ -188,9 +188,9 @@ static void gui_color_button_release(GtkButton *button, USER *user)
 void gui_color_def_widget(USER *user, GtkWidget *widget)
 {
     /* change default color throughout the widget */
-    gtk_widget_modify_base(widget, GTK_STATE_NORMAL, 
+    gtk_widget_modify_base(widget, GTK_STATE_NORMAL,
                            &user->gui_user.default_color[DEF_BG]);
-    gtk_widget_modify_text(widget, GTK_STATE_NORMAL, 
+    gtk_widget_modify_text(widget, GTK_STATE_NORMAL,
                            &user->gui_user.default_color[DEF_FG]);
 }
 
@@ -250,7 +250,7 @@ GtkWidget *gui_color_create(USER *user)
         /* set up the left part of a row */
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_table_attach_defaults(GTK_TABLE(table), hbox, 0, 1, i*2, (i*2)+1);
-                                
+
         color_frame = gtk_frame_new(NULL);
         gtk_widget_set_size_request(color_frame, 20, 20);
 
@@ -264,11 +264,11 @@ GtkWidget *gui_color_create(USER *user)
         draw = gtk_drawing_area_new();
         gtk_widget_add_events(draw, GDK_BUTTON_PRESS_MASK);
         g_signal_connect(G_OBJECT(draw), "button-press-event",
-                         G_CALLBACK(gui_color_button), 
+                         G_CALLBACK(gui_color_button),
                          &user->gui_user.colors[i]);
 
         /* set the color */
-        gtk_widget_modify_bg(draw, GTK_STATE_NORMAL, 
+        gtk_widget_modify_bg(draw, GTK_STATE_NORMAL,
                              &user->gui_user.colors[i]);
 
         /* put the draw area in the frame */
@@ -295,13 +295,13 @@ GtkWidget *gui_color_create(USER *user)
                          &user->gui_user.colors[i+(NR_ANSI_COLORS/2)]);
 
         /* set the color */
-        gtk_widget_modify_bg(draw, GTK_STATE_NORMAL, 
+        gtk_widget_modify_bg(draw, GTK_STATE_NORMAL,
                              &user->gui_user.colors[i+(NR_ANSI_COLORS/2)]);
 
         /* put the draw area in the frame */
         gtk_container_add(GTK_CONTAINER(color_frame), draw);
     }
-    
+
     /* setup one more row - first the foreground */
     frame = gtk_frame_new("Default Colors");
     gtk_box_pack_start(GTK_BOX(mainbox), frame, FALSE, FALSE, 2);
@@ -311,7 +311,7 @@ GtkWidget *gui_color_create(USER *user)
 
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_table_attach_defaults(GTK_TABLE(table), hbox, 0, 1, 0, 1);
-                                
+
     color_frame = gtk_frame_new(NULL);
     gtk_widget_set_size_request(color_frame, 20, 20);
 
@@ -328,7 +328,7 @@ GtkWidget *gui_color_create(USER *user)
                      &user->gui_user.default_color[DEF_FG]);
 
     /* set the color */
-    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL, 
+    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL,
                          &user->gui_user.default_color[DEF_FG]);
 
     /* put the draw area in the frame */
@@ -354,12 +354,12 @@ GtkWidget *gui_color_create(USER *user)
                      &user->gui_user.default_color[DEF_BG]);
 
     /* set the color */
-    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL, 
+    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL,
                          &user->gui_user.default_color[DEF_BG]);
 
     /* put the draw area in the frame */
     gtk_container_add(GTK_CONTAINER(color_frame), draw);
-    
+
     /* setup one more row - first the info color */
     frame = gtk_frame_new("Additional Colors");
     gtk_box_pack_start(GTK_BOX(mainbox), frame, FALSE, FALSE, 2);
@@ -369,7 +369,7 @@ GtkWidget *gui_color_create(USER *user)
 
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_table_attach_defaults(GTK_TABLE(table), hbox, 0, 1, 0, 1);
-                                
+
     color_frame = gtk_frame_new(NULL);
     gtk_widget_set_size_request(color_frame, 20, 20);
 
@@ -386,7 +386,7 @@ GtkWidget *gui_color_create(USER *user)
                      &user->gui_user.colors[COLOR_INFO]);
 
     /* set the color */
-    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL, 
+    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL,
                          &user->gui_user.colors[COLOR_INFO]);
 
     /* put the draw area in the frame */
@@ -412,12 +412,12 @@ GtkWidget *gui_color_create(USER *user)
                      &user->gui_user.colors[COLOR_ECHO]);
 
     /* set the color */
-    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL, 
+    gtk_widget_modify_bg(draw, GTK_STATE_NORMAL,
                          &user->gui_user.colors[COLOR_ECHO]);
 
     /* put the draw area in the frame */
     gtk_container_add(GTK_CONTAINER(color_frame), draw);
-    
+
     /* create a horizontal bar for the buttons */
     bbox = gtk_hbutton_box_new();
 
@@ -426,9 +426,9 @@ GtkWidget *gui_color_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_color_button_release), user);    
+                     G_CALLBACK(gui_color_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_color_button_release), user);    
+                     G_CALLBACK(gui_color_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -437,9 +437,9 @@ GtkWidget *gui_color_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_color_button_release), user);    
+                     G_CALLBACK(gui_color_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_color_button_release), user);    
+                     G_CALLBACK(gui_color_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, TRUE, TRUE, 2);

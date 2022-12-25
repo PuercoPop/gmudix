@@ -51,7 +51,7 @@ static void gui_font_button_release(GtkButton *button, USER *user)
         {
             /* get the child of the frame */
             hbox = gtk_bin_get_child(GTK_BIN(hbox));
-            /* then get the button and compare it */ 
+            /* then get the button and compare it */
             if (GTK_WIDGET(button) == gui_get_nth_child(hbox, 1))
             {
                 /* yes, found the button that caused this signal */
@@ -86,7 +86,7 @@ static void gui_font_button_release(GtkButton *button, USER *user)
             gtk_entry_set_text(GTK_ENTRY(entry), user->gui_user.fonts[i]);
         }
     }
-    
+
     gtk_widget_destroy(dialog);
 
     return;
@@ -146,7 +146,7 @@ void gui_font_spacing_update(USER *user)
 {
     if (user->gui_user.g_scrollback)
     {
-        gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(get_sb_view(user)), 
+        gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(get_sb_view(user)),
                                              user->gui_user.space_above);
         gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(get_sb_view(user)),
                                              user->gui_user.space_below);
@@ -154,13 +154,13 @@ void gui_font_spacing_update(USER *user)
 
     if (user->gui_user.g_view)
     {
-        gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(user->gui_user.g_view), 
+        gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(user->gui_user.g_view),
                                              user->gui_user.space_above);
-        gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(user->gui_user.g_view), 
+        gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(user->gui_user.g_view),
                                              user->gui_user.space_below);
 
         /* scroll to end of the buffer */
-        gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(user->gui_user.g_view), 
+        gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(user->gui_user.g_view),
                                            user->gui_user.g_mark);
     }
 }
@@ -213,7 +213,7 @@ GtkWidget *gui_font_create(USER *user)
         gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
         /* activate is when the mnemonic key is pressed. */
         g_signal_connect(G_OBJECT(button), "activate",
-                         G_CALLBACK(gui_font_button_release), user);    
+                         G_CALLBACK(gui_font_button_release), user);
         g_signal_connect(G_OBJECT(button), "released",
                          G_CALLBACK(gui_font_button_release), user);
         /* put the button inside the horizontal box */

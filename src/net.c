@@ -66,10 +66,10 @@ int read_data(USER *user)
 
     /* read the data from the socket */
 #if !defined(WIN32)
-    nRead = read(user->net.sock, user->net.rxp, 
+    nRead = read(user->net.sock, user->net.rxp,
                  RXBUF_LENGTH - (user->net.rxp - user->net.rxbuf));
 #else
-    nRead = recv(user->net.sock, user->net.rxp, 
+    nRead = recv(user->net.sock, user->net.rxp,
                  RXBUF_LENGTH - (user->net.rxp - user->net.rxbuf), 0);
 #endif
 
@@ -113,14 +113,14 @@ int write_data(USER *user, gchar *buffer, int len)
         GError  *conv_err = NULL;
 
         /* convert the UTF8 buffer to the server's charset before sending it */
-        str = g_convert(buffer, len, user->net.charset, 
+        str = g_convert(buffer, len, user->net.charset,
                         CHARSET_CONV, NULL, &length, &conv_err);
 
          /* check if conversion resulted in an error */
         if (!str)
         {
             /* print errors */
-            fprintf(stderr, "write_data: conv_err (%d): %s\n", conv_err->code, 
+            fprintf(stderr, "write_data: conv_err (%d): %s\n", conv_err->code,
                                                                conv_err->message);
 
             /* free the error structure */
@@ -145,7 +145,7 @@ int write_data(USER *user, gchar *buffer, int len)
                     {
                         break;
                     }
-                    
+
                     /* send an extra IAC */
 #if !defined(WIN32)
                     if ((nrWrite = write(user->net.sock, pStr, 1)) < 0)
@@ -155,7 +155,7 @@ int write_data(USER *user, gchar *buffer, int len)
                     {
                         break;
                     }
-                    
+
                     pMrk = pStr+1;
                 }
 
@@ -189,17 +189,17 @@ static NET_CODE do_connect(char *site, int port, int *sock, int *addr, char **ho
     struct sockaddr_in  server;
 
     /* get host by name - this function will block as it queries the DNS! */
-    if (!(host = gethostbyname(site))) 
+    if (!(host = gethostbyname(site)))
     {
         return NET_GETHOSTBYNAME;
-    } 
+    }
 
     /* create a socket */
-    if ((*sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) 
+    if ((*sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
     {
         return NET_NO_SOCKET;
     }
-    
+
     memcpy(&server.sin_addr, host->h_addr, host->h_length);
     server.sin_family = host->h_addrtype;
     server.sin_port   = htons((unsigned short)port);
@@ -214,7 +214,7 @@ static NET_CODE do_connect(char *site, int port, int *sock, int *addr, char **ho
     }
 
 #if !defined(WIN32)
-    if (fcntl(*sock, F_SETFL, O_NDELAY) == -1) 
+    if (fcntl(*sock, F_SETFL, O_NDELAY) == -1)
     {
         perror("fcntl: O_NDELAY (fatal?)");
     }
@@ -275,7 +275,7 @@ void do_disconnect(USER *user)
 }
 
 
-/* 
+/*
  * Connection thread
  * Note: all network data that is used below in the thread should be
  * protected by the network mutex in other parts of the code where it
@@ -369,7 +369,7 @@ void *connect_thread(USER *user)
             user->net.host_name = host;
 
             /* setup the IP address */
-            sprintf(user->net.host_addr, "%d.%d.%d.%d", 
+            sprintf(user->net.host_addr, "%d.%d.%d.%d",
                 (addr >> 24) & 0xFF, (addr >> 16) & 0xFF,
                 (addr >>  8) & 0xFF, (addr      ) & 0xFF);
 
@@ -377,16 +377,16 @@ void *connect_thread(USER *user)
             gdk_threads_enter();
 
             /* set up the receive and exception handler */
-            user->net.rx_tag  = gtk_input_add_full(user->net.sock, 
+            user->net.rx_tag  = gtk_input_add_full(user->net.sock,
                                 GDK_INPUT_READ, rx_handler, NULL, user, NULL);
-            user->net.exc_tag = gtk_input_add_full(user->net.sock, 
+            user->net.exc_tag = gtk_input_add_full(user->net.sock,
                                 GDK_INPUT_EXCEPTION, exc_handler, NULL, user, NULL);
 
             /* thread function for leaving GTK routines */
             gdk_threads_leave();
         }
     }
-    
+
     /* unlock the mutex */
     g_mutex_unlock(user_network_mutex);
 

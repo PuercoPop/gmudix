@@ -24,7 +24,7 @@
 
 
 static       GList *charset_list = NULL;
-static const gchar *charsets[] = 
+static const gchar *charsets[] =
 {
     "ANSI_X3.110-1983",
     "ANSI_X3.4-1968",
@@ -210,28 +210,28 @@ void init_charset_list(void)
 }
 
 
-static gboolean gui_char_entry_unichar(GtkEntry         *entry, 
-                                       GdkEventFocus    *event, 
+static gboolean gui_char_entry_unichar(GtkEntry         *entry,
+                                       GdkEventFocus    *event,
                                        gunichar         *value)
 {
     G_CONST_RETURN gchar *text;
 
     text = gtk_entry_get_text(entry);
-    
+
     *value = g_utf8_get_char(text);
 
     return FALSE;
 }
 
 
-static gboolean gui_char_entry_string(GtkEntry         *entry, 
-                                      GdkEventFocus    *event, 
+static gboolean gui_char_entry_string(GtkEntry         *entry,
+                                      GdkEventFocus    *event,
                                       gchar           **string)
 {
     G_CONST_RETURN gchar *text;
 
     text = gtk_entry_get_text(entry);
-    
+
     free(*string);
     *string = strdup(text);
 
@@ -290,13 +290,13 @@ GtkWidget *gui_character_create(USER *user)
     /* set up the left part of a row */
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_table_attach_defaults(GTK_TABLE(table), hbox, 0, 1, 0, 1);
-                                
+
     /* create the entry */
     entry = gtk_entry_new();
 
     /* update on focus-out */
     g_signal_connect(G_OBJECT(entry), "focus-out-event",
-		     G_CALLBACK(gui_char_entry_unichar), 
+		     G_CALLBACK(gui_char_entry_unichar),
                      &user->custom_chars[CUST_CMD_STACK]);
 
     /* put entry in hbox */
@@ -322,7 +322,7 @@ GtkWidget *gui_character_create(USER *user)
 
     /* update on focus-out */
     g_signal_connect(G_OBJECT(entry), "focus-out-event",
-		     G_CALLBACK(gui_char_entry_unichar), 
+		     G_CALLBACK(gui_char_entry_unichar),
                      &user->custom_chars[CUST_VAR_SIGN]);
 
     /* put entry in hbox */
@@ -342,13 +342,13 @@ GtkWidget *gui_character_create(USER *user)
     /* set up the left part of a row */
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_table_attach_defaults(GTK_TABLE(table), hbox, 0, 1, 2, 3);
-                                
+
     /* create the entry */
     entry = gtk_entry_new();
 
     /* update on focus-out */
     g_signal_connect(G_OBJECT(entry), "focus-out-event",
-		     G_CALLBACK(gui_char_entry_unichar), 
+		     G_CALLBACK(gui_char_entry_unichar),
                      &user->custom_chars[CUST_BLOCK_OPEN]);
 
     /* put entry in hbox */
@@ -374,7 +374,7 @@ GtkWidget *gui_character_create(USER *user)
 
     /* update on focus-out */
     g_signal_connect(G_OBJECT(entry), "focus-out-event",
-		     G_CALLBACK(gui_char_entry_unichar), 
+		     G_CALLBACK(gui_char_entry_unichar),
                      &user->custom_chars[CUST_BLOCK_CLOSE]);
 
     /* put entry in hbox */
@@ -394,13 +394,13 @@ GtkWidget *gui_character_create(USER *user)
     /* set up the left part of a row */
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_table_attach_defaults(GTK_TABLE(table), hbox, 0, 1, 4, 5);
-                                
+
     /* create the entry */
     entry = gtk_entry_new();
 
     /* update on focus-out */
     g_signal_connect(G_OBJECT(entry), "focus-out-event",
-		     G_CALLBACK(gui_char_entry_unichar), 
+		     G_CALLBACK(gui_char_entry_unichar),
                      &user->custom_chars[CUST_CMD_CHAR]);
 
     /* put entry in hbox */
@@ -426,7 +426,7 @@ GtkWidget *gui_character_create(USER *user)
 
     /* update on focus-out */
     g_signal_connect(G_OBJECT(entry), "focus-out-event",
-		     G_CALLBACK(gui_char_entry_unichar), 
+		     G_CALLBACK(gui_char_entry_unichar),
                      &user->custom_chars[CUST_SPEED_PATH]);
 
     /* put entry in hbox */
@@ -445,4 +445,3 @@ GtkWidget *gui_character_create(USER *user)
 
     return mainbox;
 }
-

@@ -24,13 +24,13 @@
 #include "file.h"
 
 
-gchar *fread_string(FILE *fp) 
+gchar *fread_string(FILE *fp)
 {
     static gchar  string[MAX_STRING];
            gchar *pStr = string;
 
     /* strip leading spaces and inprintable chars */
-    do 
+    do
     {
         *pStr = fgetc(fp);
     } while (!feof(fp) && (*pStr == ' ' || !isprint(*pStr)));
@@ -38,14 +38,14 @@ gchar *fread_string(FILE *fp)
     pStr++;
 
     /* read until we encounter a ~ */
-    while ((*pStr++ = fgetc(fp)) != '~') 
+    while ((*pStr++ = fgetc(fp)) != '~')
     {
         /* do nothing */
     }
     *(pStr-1) = '\0';
 
     /* also read to end of the line */
-    while (!feof(fp) && fgetc(fp) != '\n') 
+    while (!feof(fp) && fgetc(fp) != '\n')
     {
         /* do nothing */
     }
@@ -61,12 +61,12 @@ gchar *fread_string(FILE *fp)
 }
 
 
-gchar *fread_to_eol(FILE *fp) 
+gchar *fread_to_eol(FILE *fp)
 {
     static gchar  string[MAX_STRING];
            gchar *pStr = string;
 
-    while (!feof(fp) && (*pStr = fgetc(fp)) != '\n') 
+    while (!feof(fp) && (*pStr = fgetc(fp)) != '\n')
     {
 	if (!isprint(*pStr))
         {
@@ -80,13 +80,13 @@ gchar *fread_to_eol(FILE *fp)
 }
 
 
-gchar *fread_word(FILE *fp) 
+gchar *fread_word(FILE *fp)
 {
     static gchar  word[MAX_STRING];
            gchar *pWord = word;
 
     /* strip leading spaces and inprintable chars */
-    do 
+    do
     {
         *pWord = fgetc(fp);
     } while (!feof(fp) && (*pWord == ' ' || !isprint(*pWord)));
@@ -94,7 +94,7 @@ gchar *fread_word(FILE *fp)
     pWord++;
 
     /* get the word from the file */
-    while (isprint((*pWord = fgetc(fp)))) 
+    while (isprint((*pWord = fgetc(fp))))
     {
 	if (*pWord == ' ')
         {

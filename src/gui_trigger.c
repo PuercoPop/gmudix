@@ -160,7 +160,7 @@ static void gui_trigger_button_release(GtkButton *button, USER *user)
     else if (!strcmp(label, BUTTON_LOGIN))
     {
         GtkSpinButton *spin;
-        
+
         /* grab the spin button and update its value */
         spin = GTK_SPIN_BUTTON(user->gui_trigger.spin);
 
@@ -169,7 +169,7 @@ static void gui_trigger_button_release(GtkButton *button, USER *user)
     else if (!strcmp(label, BUTTON_PASSWORD))
     {
         GtkSpinButton *spin;
-        
+
         /* grab the spin button and update its value */
         spin = GTK_SPIN_BUTTON(user->gui_trigger.spin);
 
@@ -183,8 +183,8 @@ static void gui_trigger_button_release(GtkButton *button, USER *user)
 }
 
 
-static void gui_trigger_toggle(GtkCellRendererToggle *cell, 
-                               gchar                 *path_str, 
+static void gui_trigger_toggle(GtkCellRendererToggle *cell,
+                               gchar                 *path_str,
                                gpointer               data)
 {
     GtkTreeModel *model = (GtkTreeModel *)data;
@@ -233,7 +233,7 @@ static void gui_trigger_row_selected(GtkTreeView *treeview, USER *user)
     /* set the entries and spin button */
     gtk_entry_set_text(GTK_ENTRY(user->gui_trigger.entry1), trigger->input);
     gtk_entry_set_text(GTK_ENTRY(user->gui_trigger.entry2), trigger->response);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(user->gui_trigger.spin), 
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(user->gui_trigger.spin),
                               (gdouble)trigger->level);
 }
 
@@ -281,7 +281,7 @@ static void gui_trigger_add_columns(GtkTreeView *treeview)
 
     column = gtk_tree_view_column_new_with_attributes("Enabled",
                                                       renderer,
-						      "active", 
+						      "active",
                                                       COLUMN_ENABLE,
 						      NULL);
 
@@ -374,7 +374,7 @@ GtkWidget *gui_trigger_create(USER *user)
     g_object_unref(G_OBJECT(model));
 
     g_signal_connect(G_OBJECT(view), "cursor-changed",
-                     G_CALLBACK(gui_trigger_row_selected), user);    
+                     G_CALLBACK(gui_trigger_row_selected), user);
 
     /* add columns to the tree view */
     gui_trigger_add_columns(GTK_TREE_VIEW(view));
@@ -444,9 +444,9 @@ GtkWidget *gui_trigger_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 4);
 
@@ -454,9 +454,9 @@ GtkWidget *gui_trigger_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 4);
 
@@ -473,9 +473,9 @@ GtkWidget *gui_trigger_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -484,9 +484,9 @@ GtkWidget *gui_trigger_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -495,9 +495,9 @@ GtkWidget *gui_trigger_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -506,9 +506,9 @@ GtkWidget *gui_trigger_create(USER *user)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_trigger_button_release), user);    
+                     G_CALLBACK(gui_trigger_button_release), user);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);

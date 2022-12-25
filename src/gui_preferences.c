@@ -28,7 +28,7 @@ typedef struct
           char      *name;
           int        depth;
     const gchar     *path;
-          GtkWidget *(*gui_callback)(USER *user); 
+          GtkWidget *(*gui_callback)(USER *user);
 } SELECT_STRUCT;
 
 
@@ -147,7 +147,6 @@ static void gui_selection_changed(GtkTreeSelection *selection, USER *user)
 
             user->gui_pref.g_edit[i] = NULL;
         }
-
     }
 
     /* clean up */
@@ -225,7 +224,7 @@ static GtkWidget *setup_selection_tree(USER *user, SELECT_TREE select)
     gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
     /* set up the callback handler on the selection */
-    g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview))), 
+    g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview))),
                      "changed", G_CALLBACK(gui_selection_changed), user);
 
     return treeview;
@@ -245,7 +244,7 @@ static void gui_preference_select(GtkTreeView *treeview, SELECT_TREE select)
         /* expand the parents in this path up to root */
         gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, FALSE);
     }
-    
+
     /* clean up */
     gtk_tree_path_free(path);
 
@@ -315,7 +314,7 @@ void gui_preference_editor(USER *user, SELECT_TREE select)
     gtk_window_set_default_size(GTK_WINDOW(window), user->gui_pref.pref_width,
                                                     user->gui_pref.pref_height);
 
-    /* 
+    /*
      * show the window - at this point the treeview selects the first row
      * IF we selected a preference through the menu :-(
      * therefore we select a preference AFTER showing the window

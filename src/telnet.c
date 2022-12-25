@@ -126,7 +126,7 @@ static void send_data_telnet(USER *user, unsigned char *data, int len)
     int len2 = len;
 
     printf("SEND: %d - ", len);
-    while (len2--) 
+    while (len2--)
     {
         printf("%02X ", *pData);
         pData++;
@@ -149,7 +149,7 @@ void send_naws(USER *user)
     unsigned char  temp[128];
     unsigned char *cp = temp;
              gint  x, y;
-           
+
     if (!(user->flags & FLG_NAWS_UPDATES))
     {
         /* did not receive DO NAWS yet */
@@ -244,7 +244,7 @@ int check_iac(USER *user, unsigned char *pStart, unsigned char *pEnd, int *lengt
                           {
                             unsigned char temp[50];
 
-                            sprintf((char *)temp, "%c%c%c%c%s%c%c", 
+                            sprintf((char *)temp, "%c%c%c%c%s%c%c",
                                 IAC, SB, TELOPT_TTYPE, TELQUAL_IS, "vt100", IAC, SE);
                             send_data_telnet(user, temp, strlen((char *)temp+4)+4);
 
@@ -300,7 +300,7 @@ int check_iac(USER *user, unsigned char *pStart, unsigned char *pEnd, int *lengt
                 break;
 
             case RX_PROC_STATE_WONT:
-                switch (*pIac) 
+                switch (*pIac)
                 {
                     case TELOPT_ECHO:
                         gui_input_visible(user, TRUE);
@@ -387,4 +387,3 @@ int check_iac(USER *user, unsigned char *pStart, unsigned char *pEnd, int *lengt
 
     return retval;
 }
-

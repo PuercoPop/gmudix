@@ -38,11 +38,11 @@ typedef enum
 
 typedef enum
 {
-    MENU_NONE, FILE_OPEN, FILE_SAVE, FILE_EXIT, 
+    MENU_NONE, FILE_OPEN, FILE_SAVE, FILE_EXIT,
     VIEW_GENERAL, VIEW_GENERAL_CHAR, VIEW_GENERAL_COLOR, VIEW_GENERAL_FONTS,
     VIEW_ALIASES, VIEW_MACROS, VIEW_PATHS, VIEW_TABS, VIEW_TIMERS, VIEW_TRIGGERS, VIEW_VARS,
     WRAP_CHAR, WRAP_WORD, WRAP_NONE,
-    SESSION_RECONNECT, SESSION_DISCONNECT, SESSION_TOGGLE_CLEAR, 
+    SESSION_RECONNECT, SESSION_DISCONNECT, SESSION_TOGGLE_CLEAR,
     SESSION_TOGGLE_ECHO, SESSION_TOGGLE_MUTE,
     HELP_ABOUT,
     EDIT_SELECTALL, EDIT_CUT, EDIT_COPY, EDIT_PASTE, EDIT_CUTWORD, EDIT_CUTLINE
@@ -90,7 +90,7 @@ static GtkItemFactoryEntry menu_items[] =
   { "/View/Timers",             "<control><alt>I",      menu_select,    VIEW_TIMERS },
   { "/View/Triggers",           "<control><alt>T",      menu_select,    VIEW_TRIGGERS },
   { "/View/Variables",          "<control><alt>V",      menu_select,    VIEW_VARS },
- 
+
   { "/Session",                         NULL,           NULL,           MENU_NONE, "<Branch>" },
   { "/Session/Reconnect",               "<alt>R",       menu_select,    SESSION_RECONNECT },
   { "/Session/Disconnect",              "<alt>D",       menu_select,    SESSION_DISCONNECT },
@@ -108,13 +108,13 @@ static void gui_about_box(USER *user)
 {
     GtkWidget       *dialog;
     GtkWidget       *label;
-    
+
     dialog = gtk_dialog_new_with_buttons("About gMUDix",
-                            GTK_WINDOW(user->gui_user.g_window), 
-                            GTK_DIALOG_DESTROY_WITH_PARENT, 
+                            GTK_WINDOW(user->gui_user.g_window),
+                            GTK_DIALOG_DESTROY_WITH_PARENT,
                             GTK_STOCK_OK, GTK_RESPONSE_OK,
                             NULL);
-                
+
     label = gtk_label_new("gMUDix " VERSION);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label, TRUE, FALSE, 5);
 
@@ -174,7 +174,7 @@ static long getWordDelimiterOffset(gchar *input)
 static void menu_select(gpointer data, guint action, GtkWidget *widget)
 {
     USER *user;
-    
+
     if (!(user = get_user_window(GTK_WINDOW(data))))
     {
         /* window has no user?? something must be wrong now ;) */
@@ -234,17 +234,17 @@ static void menu_select(gpointer data, guint action, GtkWidget *widget)
             break;
         case WRAP_CHAR:
             user->gui_user.wrap_mode = GTK_WRAP_CHAR;
-            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(user->gui_user.g_view), 
+            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(user->gui_user.g_view),
                                         user->gui_user.wrap_mode);
             break;
         case WRAP_WORD:
             user->gui_user.wrap_mode = GTK_WRAP_WORD;
-            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(user->gui_user.g_view), 
+            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(user->gui_user.g_view),
                                         user->gui_user.wrap_mode);
             break;
         case WRAP_NONE:
             user->gui_user.wrap_mode = GTK_WRAP_NONE;
-            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(user->gui_user.g_view), 
+            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(user->gui_user.g_view),
                                         user->gui_user.wrap_mode);
             break;
         case SESSION_RECONNECT:
@@ -324,12 +324,12 @@ static gboolean update_views_scrollback(gpointer data)
                                  user->gui_user.g_mark,
                                  0, TRUE, 1.0, 0);
 
-    return FALSE;   /* only be called once */ 
+    return FALSE;   /* only be called once */
 }
 
 
-static gboolean gui_key_event_callback(GtkWidget    *widget, 
-                                       GdkEventKey  *event, 
+static gboolean gui_key_event_callback(GtkWidget    *widget,
+                                       GdkEventKey  *event,
                                        USER         *user)
 {
     switch (event->keyval)
@@ -344,7 +344,7 @@ static gboolean gui_key_event_callback(GtkWidget    *widget,
             {
                 GtkAdjustment *adjust;
                 gdouble        newval;
-                
+
                 adjust = gtk_scrolled_window_get_vadjustment(
                          GTK_SCROLLED_WINDOW(user->gui_user.g_scrollback));
 
@@ -541,8 +541,8 @@ static gboolean gui_user_config_event(GtkWidget         *widget,
 }
 
 
-static gboolean gui_user_focus_in(GtkEntry      *entry, 
-                                  GdkEventFocus *event, 
+static gboolean gui_user_focus_in(GtkEntry      *entry,
+                                  GdkEventFocus *event,
                                   USER          *user)
 {
     /* if we had a selection prior to focus loss - re-set it now */
@@ -558,12 +558,12 @@ static gboolean gui_user_focus_in(GtkEntry      *entry,
 }
 
 
-static gboolean gui_user_focus_out(GtkEntry         *entry, 
-                                   GdkEventFocus    *event, 
+static gboolean gui_user_focus_out(GtkEntry         *entry,
+                                   GdkEventFocus    *event,
                                    USER             *user)
 {
     /* remember that we had selected text in our input */
-    gtk_editable_get_selection_bounds(GTK_EDITABLE(entry), 
+    gtk_editable_get_selection_bounds(GTK_EDITABLE(entry),
                                       &user->gui_user.input_select_start,
                                       &user->gui_user.input_select_end);
 
@@ -597,7 +597,7 @@ static gboolean gui_reconnect_timer(gpointer data)
             {
                 gchar buf[MAX_SMALL_STR];
 
-                sprintf(buf, "Reconnecting in %d second%s...", 
+                sprintf(buf, "Reconnecting in %d second%s...",
                     user->net.recon_timer, (user->net.recon_timer > 1)? "s": "");
                 gui_status_msg(user, buf);
 
@@ -655,13 +655,13 @@ static void gui_disconnect_dialog(USER *user, gchar *msg)
 
     /* create a dialog with response buttons */
     dialog = gtk_dialog_new_with_buttons("Disconnected",
-                            GTK_WINDOW(user->gui_user.g_window), 
-                            GTK_DIALOG_DESTROY_WITH_PARENT, 
-                            "Reconnect", DIA_RESP_RECONNECT, 
-                            "Offline", DIA_RESP_OFFLINE, 
+                            GTK_WINDOW(user->gui_user.g_window),
+                            GTK_DIALOG_DESTROY_WITH_PARENT,
+                            "Reconnect", DIA_RESP_RECONNECT,
+                            "Offline", DIA_RESP_OFFLINE,
                             GTK_STOCK_CLOSE, DIA_RESP_CLOSE,
                             NULL);
-                
+
     /* set some labels */
     label = gtk_label_new(msg);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label, TRUE, FALSE, 10);
@@ -672,11 +672,11 @@ static void gui_disconnect_dialog(USER *user, gchar *msg)
     /* this will cause the dialog to be closed on reconnection */
     gtk_window_set_transient_for(GTK_WINDOW(dialog),
                                  GTK_WINDOW(user->gui_user.g_window));
-    
+
     /* check response */
-    g_signal_connect(G_OBJECT(dialog), "response", 
+    g_signal_connect(G_OBJECT(dialog), "response",
                      G_CALLBACK(disconnect_response), user);
-  
+
     /* start the reconnect timer if required, 1 sec resolution */
     if (user->net.recon_timer_load)
     {
@@ -684,7 +684,7 @@ static void gui_disconnect_dialog(USER *user, gchar *msg)
         user->net.recon_timer = user->net.recon_timer_load;
 
         /* add a timer, NOTE that dialog is passed as argument */
-        user->net.recon_id = gtk_timeout_add(TIMER_TIMEOUT, 
+        user->net.recon_id = gtk_timeout_add(TIMER_TIMEOUT,
                                              gui_reconnect_timer, dialog);
     }
 
@@ -776,7 +776,7 @@ gboolean gui_connection_status(USER *user)
             /* first lock the mutex */
             g_mutex_lock(user_network_mutex);
 
-            sprintf(buf, "Connected to %s (%s) port %d", 
+            sprintf(buf, "Connected to %s (%s) port %d",
                     user->net.host_name, user->net.host_addr, user->net.port);
 
             /* unlock the mutex */
@@ -818,17 +818,17 @@ void gui_dialog_msg(USER *user, gchar *msg)
 {
     GtkWidget *dialog;
 
-    dialog = gtk_message_dialog_new(GTK_WINDOW(user->gui_user.g_window), 
-                GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, 
+    dialog = gtk_message_dialog_new(GTK_WINDOW(user->gui_user.g_window),
+                GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO,
                 GTK_BUTTONS_CLOSE, msg);
-                
-    gtk_window_set_transient_for(GTK_WINDOW(user->gui_user.g_window), 
+
+    gtk_window_set_transient_for(GTK_WINDOW(user->gui_user.g_window),
                                  GTK_WINDOW(dialog));
-    
+
     /* close dialog on user response */
-    g_signal_connect(G_OBJECT(dialog), "response", 
+    g_signal_connect(G_OBJECT(dialog), "response",
                      G_CALLBACK(gtk_widget_destroy), NULL);
-  
+
     gtk_widget_show(dialog);
 }
 
@@ -855,7 +855,7 @@ void gui_user_get_xy(USER *user, gint *x, gint *y)
 
     /* grab the metrics structure */
     metrics = pango_context_get_metrics(context, font_desc, NULL);
- 
+
     /* free the font description again */
     pango_font_description_free(font_desc);
 
@@ -874,7 +874,7 @@ void gui_user_get_xy(USER *user, gint *x, gint *y)
         GList *items;
         PangoItem *item;
         PangoAttrList *attrib;
-        
+
         attrib = pango_attr_list_new();
         glyphs = pango_glyph_string_new();
         items = pango_itemize(context, q[i], 0, 1, attrib, NULL);
@@ -893,7 +893,7 @@ void gui_user_get_xy(USER *user, gint *x, gint *y)
         g_list_free(items);
         pango_glyph_string_free (glyphs);
     }
-    
+
     /* return the calculated width and height */
     *x = rect.width / (width / PANGO_SCALE);
     *y = rect.height / (height / PANGO_SCALE);
@@ -908,11 +908,11 @@ void gui_user_backspace(USER *user)
     gtk_text_iter_backward_chars(&start, 1);
 
     /* delete the character */
-    gtk_text_buffer_delete(user->gui_user.g_buffer, &start, 
+    gtk_text_buffer_delete(user->gui_user.g_buffer, &start,
                            &user->gui_user.input_iter);
 
     /* update the input iter because delete also deletes iters */
-    gtk_text_buffer_get_end_iter(user->gui_user.g_buffer, 
+    gtk_text_buffer_get_end_iter(user->gui_user.g_buffer,
                                  &user->gui_user.input_iter);
 }
 
@@ -923,21 +923,21 @@ void gui_add_color_window(USER *user, gchar *buf, gsize len, guint color)
     {
         /* just send buffer with color to window */
         gtk_text_buffer_insert_with_tags(
-                user->gui_user.g_buffer, 
+                user->gui_user.g_buffer,
                 &user->gui_user.input_iter,
-                buf, len, 
+                buf, len,
                 user->gui_user.g_fg_color_tags[color],
                 NULL);
     }
     else
     {
         /* insert text with default colors */
-        gtk_text_buffer_insert(user->gui_user.g_buffer, 
+        gtk_text_buffer_insert(user->gui_user.g_buffer,
                                &user->gui_user.input_iter, buf, len);
 
     }
 
-    if (gtk_text_buffer_get_line_count(user->gui_user.g_buffer) > 
+    if (gtk_text_buffer_get_line_count(user->gui_user.g_buffer) >
                                        user->gui_user.lines_max)
     {
         GtkTextIter start, end;
@@ -949,7 +949,7 @@ void gui_add_color_window(USER *user, gchar *buf, gsize len, guint color)
         gtk_text_buffer_delete(user->gui_user.g_buffer, &start, &end);
 
         /* update the input iter because delete also deletes iters */
-        gtk_text_buffer_get_end_iter(user->gui_user.g_buffer, 
+        gtk_text_buffer_get_end_iter(user->gui_user.g_buffer,
                                      &user->gui_user.input_iter);
     }
 
@@ -960,7 +960,7 @@ void gui_add_color_window(USER *user, gchar *buf, gsize len, guint color)
     }
 
     /* scroll to end of the buffer */
-    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(user->gui_user.g_view), 
+    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(user->gui_user.g_view),
                                        user->gui_user.g_mark);
 }
 
@@ -973,7 +973,7 @@ void gui_add_ansi_window(USER *user, gchar *buf, gsize len)
     guint       attrib = user->ansi.attrib;
 
     /* insert text */
-    gtk_text_buffer_insert(user->gui_user.g_buffer, 
+    gtk_text_buffer_insert(user->gui_user.g_buffer,
                            &user->gui_user.input_iter, buf, len);
 
     /* get the iter pointing to the start of the buffer we inserted */
@@ -1023,7 +1023,7 @@ void gui_add_ansi_window(USER *user, gchar *buf, gsize len)
                                   &user->gui_user.input_iter);
     }
 
-    if (gtk_text_buffer_get_line_count(user->gui_user.g_buffer) > 
+    if (gtk_text_buffer_get_line_count(user->gui_user.g_buffer) >
                                        user->gui_user.lines_max)
     {
         GtkTextIter start, end;
@@ -1035,7 +1035,7 @@ void gui_add_ansi_window(USER *user, gchar *buf, gsize len)
         gtk_text_buffer_delete(user->gui_user.g_buffer, &start, &end);
 
         /* important, update the input iter because delete also deletes iters */
-        gtk_text_buffer_get_end_iter(user->gui_user.g_buffer, 
+        gtk_text_buffer_get_end_iter(user->gui_user.g_buffer,
                                      &user->gui_user.input_iter);
     }
 
@@ -1046,7 +1046,7 @@ void gui_add_ansi_window(USER *user, gchar *buf, gsize len)
     }
 
     /* scroll to end of the buffer */
-    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(user->gui_user.g_view), 
+    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(user->gui_user.g_view),
                                        user->gui_user.g_mark);
 }
 
@@ -1060,7 +1060,7 @@ void gui_user_cls(USER *user)
     gtk_text_buffer_delete(user->gui_user.g_buffer, &start, &end);
 
     /* important, update the input iter because delete also deletes iters */
-    gtk_text_buffer_get_end_iter(user->gui_user.g_buffer, 
+    gtk_text_buffer_get_end_iter(user->gui_user.g_buffer,
                                  &user->gui_user.input_iter);
 }
 
@@ -1084,12 +1084,12 @@ void gui_user_setup_tags(USER *user)
 
     user->gui_user.g_underline_tag =
             gtk_text_buffer_create_tag(user->gui_user.g_buffer, NULL,
-                                       "underline", 
+                                       "underline",
                                        PANGO_UNDERLINE_SINGLE, NULL);
 
     user->gui_user.g_italic_tag =
             gtk_text_buffer_create_tag(user->gui_user.g_buffer, NULL,
-                                       "style", 
+                                       "style",
                                        PANGO_STYLE_ITALIC, NULL);
 }
 
@@ -1104,7 +1104,7 @@ void gui_set_window_title(USER *user)
     }
 
     sprintf(buf, "[Id: %d] %s", user->id, user->session);
-    gtk_window_set_title(GTK_WINDOW(user->gui_user.g_window), buf); 
+    gtk_window_set_title(GTK_WINDOW(user->gui_user.g_window), buf);
 }
 
 
@@ -1121,7 +1121,7 @@ void gui_setup_user_window(USER *user)
     GtkWidget              *entry;
     GtkWidget              *statusbar;
     GtkWidget              *vpaned;
-    GtkAccelGroup          *accel_group;      
+    GtkAccelGroup          *accel_group;
     GtkItemFactory         *item_factory;
     GtkTextIter             iter;
 
@@ -1138,7 +1138,7 @@ void gui_setup_user_window(USER *user)
 
     gtk_container_set_border_width(GTK_CONTAINER(window), 2);
     gtk_window_set_default_size(GTK_WINDOW(window),
-                                user->gui_user.win_width, 
+                                user->gui_user.win_width,
                                 user->gui_user.win_height);
 
     /* create a vertical box */
@@ -1151,7 +1151,7 @@ void gui_setup_user_window(USER *user)
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
     item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>", accel_group);
     g_object_unref(accel_group);
-      
+
     /* set up item factory to go away with the window */
     g_object_ref(item_factory);
     gtk_object_sink(GTK_OBJECT(item_factory));
@@ -1162,8 +1162,8 @@ void gui_setup_user_window(USER *user)
     gtk_item_factory_create_items(item_factory, G_N_ELEMENTS(menu_items), menu_items, window);
 
      /* put the menu in the vertical box */
-    gtk_box_pack_start(GTK_BOX(vbox), 
-                       gtk_item_factory_get_widget(item_factory, "<main>"), 
+    gtk_box_pack_start(GTK_BOX(vbox),
+                       gtk_item_factory_get_widget(item_factory, "<main>"),
                        FALSE, FALSE, 1);
 
     /* create a paned window for scrollback */

@@ -58,9 +58,9 @@ static void cmd_trigger(USER *user, int index, char *args);
 static void cmd_variable(USER *user, int index, char *args);
 
 
-const struct cmd_table_type cmd_table[] = 
+const struct cmd_table_type cmd_table[] =
 {
-    { "alias", cmd_alias, "{alias name} {response}", 
+    { "alias", cmd_alias, "{alias name} {response}",
             "Create or update an alias.\n" },
     { "capture", cmd_capture, "{title} <color> {text (optional)}",
             "Capture text or current line into a capture window.\n" },
@@ -112,7 +112,7 @@ const struct cmd_table_type cmd_table[] =
             "Create a variable.\n" },
     { "help", cmd_help, NULL,
             "This help message (help <cmd> for syntax).\n" },
-    { "?", cmd_help, NULL, 
+    { "?", cmd_help, NULL,
             "Synonym for help.\n" },
     { NULL, NULL, NULL }
 };
@@ -127,7 +127,7 @@ static int cmd_lookup(char *cmd)
         return -1;
     }
 
-    while (cmd_table[i].cmd) 
+    while (cmd_table[i].cmd)
     {
         if (!strncmp(cmd, cmd_table[i].cmd, strlen(cmd)))
         {
@@ -152,7 +152,7 @@ bool do_command(USER *user, char *cmdline)
         return FALSE;
     }
 
-    (*(cmd_table[index].function))(user, index, cmdline); 
+    (*(cmd_table[index].function))(user, index, cmdline);
     return TRUE;
 }
 
@@ -185,9 +185,9 @@ static void cmd_help(USER *user, int index, char *arglist)
     gui_info_message(user, "-------         -----------\n");
 
     index = 0;
-    while (cmd_table[index].cmd) 
+    while (cmd_table[index].cmd)
     {
-        sprintf(gl_arg1, "%-15s %s", cmd_table[index].cmd, 
+        sprintf(gl_arg1, "%-15s %s", cmd_table[index].cmd,
                                      cmd_table[index].description);
         gui_info_message(user, gl_arg1);
         index++;
@@ -222,7 +222,7 @@ static void cmd_macro(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!fExist)
     {
         if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
@@ -245,7 +245,7 @@ static void cmd_distrig(USER *user, int index, char *arglist)
 
     get_arg(user, arglist, gl_arg1);
     level = atoi(gl_arg1);
-    for (trig = user->trigger_list; trig; trig = trig->next) 
+    for (trig = user->trigger_list; trig; trig = trig->next)
     {
         if (trig->level == level)
         {
@@ -256,7 +256,7 @@ static void cmd_distrig(USER *user, int index, char *arglist)
 
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
-        sprintf(gl_arg1, "All triggers of level %d disabled (counted %d).\n", 
+        sprintf(gl_arg1, "All triggers of level %d disabled (counted %d).\n",
                 level, count);
         gui_info_message(user, gl_arg1);
     }
@@ -272,7 +272,7 @@ static void cmd_enatrig(USER *user, int index, char *arglist)
 
     get_arg(user, arglist, gl_arg1);
     level = atoi(gl_arg1);
-    for (trig = user->trigger_list; trig; trig = trig->next) 
+    for (trig = user->trigger_list; trig; trig = trig->next)
     {
         if (trig->level == level)
         {
@@ -308,7 +308,7 @@ static void cmd_if(USER *user, int index, char *arglist)
 static void cmd_log(USER *user, int index, char *arglist)
 {
     get_arg(user, arglist, gl_arg1);
-    if (gl_arg1[0]) 
+    if (gl_arg1[0])
     {
         get_arg(user, arglist, gl_arg2);
 
@@ -321,7 +321,7 @@ static void cmd_log(USER *user, int index, char *arglist)
             gui_info_message(user, "Log started.\n");
         }
     }
-    else 
+    else
     {
         if (!close_log(user))
         {
@@ -354,7 +354,7 @@ static void cmd_alias(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
         sprintf(gl_arg2, "Alias '%s' created.\n", gl_arg1);
@@ -381,7 +381,7 @@ static void cmd_path(USER *user, int index, char *arglist)
 
     if (!gl_arg2[0])
     {
-        for (path = user->path_list; path; path = path->next) 
+        for (path = user->path_list; path; path = path->next)
         {
             if (!strcmp(gl_arg1, path->name))
             {
@@ -389,7 +389,7 @@ static void cmd_path(USER *user, int index, char *arglist)
             }
         }
 
-        if (!path) 
+        if (!path)
         {
             sprintf(gl_arg2, "Path '%s' not found.\n", gl_arg1);
             gui_info_message(user, gl_arg2);
@@ -404,7 +404,7 @@ static void cmd_path(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
         sprintf(gl_arg2, "Path '%s' created.\n", gl_arg1);
@@ -422,13 +422,13 @@ static void cmd_read(USER *user, int index, char *arglist)
     char *line;
 
     get_arg(user, arglist, gl_arg1);
-    if (!gl_arg1[0]) 
+    if (!gl_arg1[0])
     {
         syntax_msg(user, index);
         return;
     }
 
-    if (!(fp = fopen(gl_arg1, "r"))) 
+    if (!(fp = fopen(gl_arg1, "r")))
     {
         gui_info_message(user, "Failed to open file.\n");
         return;
@@ -440,13 +440,13 @@ static void cmd_read(USER *user, int index, char *arglist)
         gui_info_message(user, gl_arg2);
     }
 
-    while ((line = fread_to_eol(fp))) 
+    while ((line = fread_to_eol(fp)))
     {
         if (*line == '\0')
         {
             break;
         }
-        process_input(user, line, NULL);        
+        process_input(user, line, NULL);
     }
 
     fclose(fp);
@@ -470,7 +470,7 @@ static void cmd_tab(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
         sprintf(gl_arg2, "Tab completion '%s' created.\n", gl_arg1);
@@ -489,7 +489,7 @@ static void cmd_timer(USER *user, int index, char *arglist)
 
     arglist = get_arg(user, arglist, gl_arg1);
     time    = atoi(gl_arg1);
-    
+
     arglist = get_arg(user, arglist, gl_arg1);
     reload  = atoi(gl_arg1);
 
@@ -504,7 +504,7 @@ static void cmd_timer(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
         sprintf(gl_arg1, "Timer created for %ds (%d times).\n", time, reload);
@@ -523,7 +523,7 @@ static void cmd_oneshot(USER *user, int index, char *arglist)
 
     arglist = get_arg(user, arglist, gl_arg1);
     time    = atoi(gl_arg1);
-    
+
     get_arg(user, arglist, gl_arg1);
     if (gl_arg1[0] == '\0' || time < 0)
     {
@@ -535,7 +535,7 @@ static void cmd_oneshot(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
         sprintf(gl_arg1, "Oneshot timer created for %ds.\n", time);
@@ -553,7 +553,7 @@ static void cmd_stop_timer(USER *user, int index, char *arglist)
     int    time, count=0;
 
     get_arg(user, arglist, gl_arg1);
-    
+
     if (gl_arg1[0] == '\0')
     {
         syntax_msg(user, index);
@@ -604,7 +604,7 @@ static void cmd_cont_timer(USER *user, int index, char *arglist)
     int    time, count=0;
 
     get_arg(user, arglist, gl_arg1);
-    
+
     if (gl_arg1[0] == '\0')
     {
         syntax_msg(user, index);
@@ -656,7 +656,7 @@ static void cmd_trigger(USER *user, int index, char *arglist)
 
     arglist = get_arg(user, arglist, gl_arg1);
     level   = atoi(gl_arg1);
-    
+
     arglist = get_arg(user, arglist, gl_arg1);
     arglist = get_arg(user, arglist, gl_arg2);
     if (gl_arg2[0] == '\0')
@@ -669,7 +669,7 @@ static void cmd_trigger(USER *user, int index, char *arglist)
     {
         exit_mudix();
     }
-    
+
     if (!(user->flags & FLG_CMD_OUTPUT_MUTE))
     {
         sprintf(gl_arg1, "Trigger created for level %d.\n", level);
@@ -721,9 +721,9 @@ static void cmd_variable(USER *user, int index, char *arglist)
 
 
 static void cmd_echo(USER *user, int index, char *args)
-{   
+{
     int color;
-    
+
     args = get_arg(user, args, gl_arg1);
     if (gl_arg1[0] == '\0')
     {
@@ -732,17 +732,17 @@ static void cmd_echo(USER *user, int index, char *args)
     }
 
     color = atoi(gl_arg1) & (NR_ANSI_COLORS-1);
-    if (color == COLOR_BLACK) 
+    if (color == COLOR_BLACK)
     {
         color = COLOR_INFO;
     }
-    
+
     gui_add_color_window(user, args, strlen(args), color);
 }
 
 
 static void cmd_command(USER *user, int index, char *args)
-{   
+{
     USER *lookup;
 
     args = get_arg(user, args, gl_arg1);
@@ -796,11 +796,11 @@ static void cmd_capture(USER *user, int index, char *args)
     }
 
     color = atoi(gl_arg2) & (NR_ANSI_COLORS-1);
-    if (color == COLOR_BLACK) 
+    if (color == COLOR_BLACK)
     {
         color = COLOR_INFO;
     }
-    
+
     get_arg(user, args, gl_arg2);
 
     if (!gl_arg2[0])
@@ -819,7 +819,7 @@ static void cmd_capture(USER *user, int index, char *args)
 
 
 void cmd_mute(USER *user, int index, char *args)
-{   
+{
     get_arg(user, args, gl_arg1);
 
     if (!gl_arg1[0])
@@ -850,7 +850,7 @@ void cmd_mute(USER *user, int index, char *args)
 
 
 void cmd_input_echo(USER *user, int index, char *args)
-{   
+{
     get_arg(user, args, gl_arg1);
 
     if (!gl_arg1[0])
@@ -884,7 +884,7 @@ void cmd_input_echo(USER *user, int index, char *args)
 
 
 void cmd_input_clear(USER *user, int index, char *args)
-{   
+{
     get_arg(user, args, gl_arg1);
 
     if (!gl_arg1[0])
@@ -919,7 +919,7 @@ void cmd_input_clear(USER *user, int index, char *args)
 
 #if !defined(WIN32)
 void cmd_shell(USER *user, int index, char *args)
-{   
+{
     pid_t pid = fork();
 
     if (pid == -1)
@@ -949,7 +949,7 @@ void cmd_shell(USER *user, int index, char *args)
 
 
 void cmd_cls(USER *user, int index, char *args)
-{   
+{
     get_arg(user, args, gl_arg1);
 
     if (gl_arg1[0])

@@ -115,7 +115,7 @@ static bool check_expression(USER *user, gchar *expr)
     pArg1 = arg1;
     while ((c = g_utf8_get_char(pExpr)) != '\0')
     {
-        if (c == '!' || 
+        if (c == '!' ||
             c == '=' ||
             c == '>' ||
             c == '<')
@@ -211,7 +211,7 @@ static bool check_expression(USER *user, gchar *expr)
 bool process_if(USER *user, gchar *buffer)
 {
     gchar str[MAX_STRING];
- 
+
     /* grab the expression */
     buffer = get_arg(user, buffer, str);
 
@@ -516,7 +516,7 @@ static void process_esc(gunichar c, ANSI_T *ansi)
         pParam        += (strlen(pParam) + 1);
     }
 
-    switch (c) 
+    switch (c)
     {
         /* we only support 'm' for now */
         case 'm':
@@ -528,9 +528,9 @@ static void process_esc(gunichar c, ANSI_T *ansi)
                 ansi->bg     = ANSI_COLOR_NONE;
             }
 
-            for (i=0; i<npar; i++) 
+            for (i=0; i<npar; i++)
             {
-                 switch (params[i]) 
+                 switch (params[i])
                  {
                      case ANSI_DEFAULT:
                          ansi->attrib = 0;
@@ -597,13 +597,13 @@ static void process_esc(gunichar c, ANSI_T *ansi)
     ansi->state  = ANSI_STATE_IDLE;
     ansi->paramp = ansi->parambuf;
 }
-                  
+
 
 static guint check_esc(gunichar c, gchar *pRx, gchar *pEnd, ANSI_T *ansi)
 {
     gchar *pStart = pRx;
 
-    while (pRx < pEnd) 
+    while (pRx < pEnd)
     {
         switch (ansi->state)
         {
@@ -670,7 +670,7 @@ static guint check_esc(gunichar c, gchar *pRx, gchar *pEnd, ANSI_T *ansi)
             c = g_utf8_get_char(pRx);
         }
     }
- 
+
     return pRx-pStart;
 }
 
@@ -702,7 +702,7 @@ static void process_rx_data(USER *user, char *data, int len)
     gunichar  c;
 
     /* convert the incoming data to an UTF8 string */
-    rxbuf = g_convert((const gchar *)data, (gssize)len, CHARSET_CONV, 
+    rxbuf = g_convert((const gchar *)data, (gssize)len, CHARSET_CONV,
                       user->net.charset, NULL, &rxcnt, &conv_err);
 
     /* check if conversion resulted in an error */
@@ -738,7 +738,7 @@ static void process_rx_data(USER *user, char *data, int len)
                 case CSI:
                 case ESC:
                     /* found an escape sequence, flush buffer and check ESC */
-                    if (pRx != pMrk) 
+                    if (pRx != pMrk)
                     {
                         gui_add_ansi_window(user, pMrk, pRx-pMrk);
                         add_to_trigger_buf(user, pMrk, pRx-pMrk);
@@ -750,7 +750,7 @@ static void process_rx_data(USER *user, char *data, int len)
 
                 case LF:
                     /* encountered a newline, first add data (without newline) */
-                    if (pRx != pMrk) 
+                    if (pRx != pMrk)
                     {
                         add_to_trigger_buf(user, pMrk, pRx-pMrk);
                     }
@@ -759,7 +759,7 @@ static void process_rx_data(USER *user, char *data, int len)
                     pRx = g_utf8_next_char(pRx);
 
                     /* newline is now also sent to user window */
-                    if (pRx != pMrk) 
+                    if (pRx != pMrk)
                     {
                         gui_add_ansi_window(user, pMrk, pRx-pMrk);
                     }
@@ -773,7 +773,7 @@ static void process_rx_data(USER *user, char *data, int len)
 
                 case BS:
                     /* encountered a backspace, flush buffer and skip it */
-                    if (pRx != pMrk) 
+                    if (pRx != pMrk)
                     {
                         /* do not print the last character in the buffer */
                         gchar *pTmp = g_utf8_prev_char(pRx);
@@ -793,7 +793,7 @@ static void process_rx_data(USER *user, char *data, int len)
 
                 case BEEP:
                     /* encountered a beep, flush buffer and skip it */
-                    if (pRx != pMrk) 
+                    if (pRx != pMrk)
                     {
                         gui_add_ansi_window(user, pMrk, pRx-pMrk);
                         add_to_trigger_buf(user, pMrk, pRx-pMrk);
@@ -814,7 +814,7 @@ static void process_rx_data(USER *user, char *data, int len)
                     if (!g_unichar_isprint(c))
                     {
                         /* unsupported character, flush buffer */
-                        if (pRx != pMrk) 
+                        if (pRx != pMrk)
                         {
                             gui_add_ansi_window(user, pMrk, pRx-pMrk);
                             add_to_trigger_buf(user, pMrk, pRx-pMrk);
@@ -834,7 +834,7 @@ static void process_rx_data(USER *user, char *data, int len)
     }
 
     /* did we put all in the window yet? if not do it now */
-    if (pRx != pMrk) 
+    if (pRx != pMrk)
     {
         gui_add_ansi_window(user, pMrk, pRx-pMrk);
         add_to_trigger_buf(user, pMrk, pRx-pMrk);
@@ -850,7 +850,7 @@ static void process_rx_data(USER *user, char *data, int len)
 }
 
 
-void process_rx_buffer(USER *user) 
+void process_rx_buffer(USER *user)
 {
     unsigned char *pRx, *pMrk1, *pMrk2, *pEnd;
 
@@ -972,5 +972,3 @@ void process_rx_buffer(USER *user)
 
     return;
 }
-
-

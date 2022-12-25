@@ -54,7 +54,7 @@ static CAPT_WINDOW *new_capt_window(void)
     {
 	return NULL;
     }
-     
+
     capt->next       = capt_window_list;
     capt_window_list = capt;
 
@@ -77,9 +77,9 @@ static void free_capt_window(CAPT_WINDOW *capt)
     {
         CAPT_WINDOW *lookup;
 
-        for (lookup = capt_window_list; lookup; lookup = lookup->next) 
+        for (lookup = capt_window_list; lookup; lookup = lookup->next)
         {
-            if (lookup->next == capt) 
+            if (lookup->next == capt)
             {
                 lookup->next = capt->next;
                 break;
@@ -145,7 +145,7 @@ static CAPT_WINDOW *gui_setup_capt_window(USER *user, gchar *title)
     /* create the main window */
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    gtk_window_set_title(GTK_WINDOW(window), title); 
+    gtk_window_set_title(GTK_WINDOW(window), title);
 
     /* setup event handlers for the window */
     g_signal_connect(G_OBJECT(window), "destroy",
@@ -153,7 +153,7 @@ static CAPT_WINDOW *gui_setup_capt_window(USER *user, gchar *title)
 
     gtk_container_set_border_width(GTK_CONTAINER(window), 2);
     gtk_window_set_default_size(GTK_WINDOW(window),
-                                DEFAULT_CAPT_WIDTH, 
+                                DEFAULT_CAPT_WIDTH,
                                 DEFAULT_CAPT_HEIGHT);
 
     /* create a text view */
@@ -255,9 +255,9 @@ void gui_add_to_capt(USER *user, gchar *title, gchar *buf, gsize len, guint colo
     if (color < NR_ANSI_COLORS)
     {
         /* just send buffer with color to window */
-        gtk_text_buffer_insert_with_tags(capt->g_buffer, 
+        gtk_text_buffer_insert_with_tags(capt->g_buffer,
                                          &iter,
-                                         buffer, len, 
+                                         buffer, len,
                                          capt->g_fg_color_tags[color],
                                          NULL);
     }
@@ -293,9 +293,3 @@ bool gui_cls_capt(USER *user, gchar *title)
         return FALSE;
     }
 }
-
-
-
-
-
-

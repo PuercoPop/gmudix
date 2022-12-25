@@ -55,7 +55,7 @@ bool open_log(USER *user, char *filename, bool date)
     timestr[strlen(timestr)-5] = '\0';
 
     /* format the filename */
-    sprintf(path, "%s/" LOG_PATH "%s%s.log", getenv("HOME"), 
+    sprintf(path, "%s/" LOG_PATH "%s%s.log", getenv("HOME"),
                                              date? timestr: "", filename);
 
     /* open the file - in append mode */
@@ -71,7 +71,7 @@ bool open_log(USER *user, char *filename, bool date)
     fprintf(user->logfile, "%%%% STARTING NEW LOG, %s\n\n", timestr);
 
     return TRUE;
-} 
+}
 
 
 bool close_log(USER *user)
@@ -92,7 +92,7 @@ bool close_log(USER *user)
 
     return TRUE;
 }
-        
+
 
 void write_log(USER *user, gchar *data, gsize length)
 {

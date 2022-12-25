@@ -34,19 +34,19 @@ USER *new_user(void)
     int   i;
 
     /* get us some memory */
-    if (!(user = malloc(sizeof(USER)))) 
+    if (!(user = malloc(sizeof(USER))))
     {
         fprintf(stdout, "No memory for user?!\n");
         exit_mudix();
     }
 
-    if (!(user->net.rxbuf = malloc(sizeof(gchar) * RXBUF_LENGTH))) 
+    if (!(user->net.rxbuf = malloc(sizeof(gchar) * RXBUF_LENGTH)))
     {
         fprintf(stdout, "No memory for receive buffer?!\n");
         exit_mudix();
     }
 
-    if (!(user->net.iacbuf = malloc(sizeof(gchar) * RXBUF_LENGTH))) 
+    if (!(user->net.iacbuf = malloc(sizeof(gchar) * RXBUF_LENGTH)))
     {
         fprintf(stdout, "No memory for IAC buffer?!\n");
         exit_mudix();
@@ -92,7 +92,7 @@ USER *new_user(void)
     user->gui_pref.g_selecttree = NULL;
     user->gui_pref.pref_width   = DEFAULT_PREF_WIDTH;
     user->gui_pref.pref_height  = DEFAULT_PREF_HEIGHT;
-    
+
     /* set all colors to their default */
     gui_color_set_def_all(user);
 
@@ -129,7 +129,7 @@ USER *new_user(void)
     user->flags        = 0;
 
     /* create a trigger buffer */
-    if (!(user->trigger_buf = malloc(sizeof(gchar) * MAX_STRING))) 
+    if (!(user->trigger_buf = malloc(sizeof(gchar) * MAX_STRING)))
     {
         fprintf(stdout, "No memory for trigger buffer?!\n");
         exit_mudix();
@@ -186,19 +186,19 @@ void del_user(USER *user)
 
     /* clean up the alias list */
     cleanup_alias_list(user);
-    
+
     /* clean up the macro list */
     cleanup_macro_list(user);
-    
+
     /* clean up the path list */
     cleanup_path_list(user);
-    
+
     /* clean up the timer list */
     cleanup_timer_list(user);
 
     /* clean up the trigger list */
     cleanup_trigger_list(user);
-    
+
     /* clean up the variable list */
     cleanup_vars_list(user);
 
@@ -368,14 +368,14 @@ USER *get_user_with_color(GdkColor *color)
     /* smart lookup: check if color address in range of user */
     for (user = user_list; user; user = user->next)
     {
-        if (((gint)color >  (gint)user) && 
+        if (((gint)color >  (gint)user) &&
             ((gint)color < ((gint)user + (gint)sizeof(USER))))
         {
             /* address of color is within this user's range */
             return user;
         }
     }
-    
+
     return NULL;
 }
 
@@ -391,7 +391,7 @@ USER *get_user_id(guint id)
             return user;
         }
     }
-    
+
     return NULL;
 }
 
@@ -407,7 +407,7 @@ USER *get_user_file(char *file)
             return user;
         }
     }
-    
+
     return NULL;
 }
 
@@ -424,7 +424,7 @@ USER *get_user_session(gchar *session)
             return user;
         }
     }
-    
+
     return NULL;
 }
 
@@ -435,7 +435,7 @@ static void user_read_old(USER *user, FILE *fp)
 {
     int i;
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -445,14 +445,14 @@ static void user_read_old(USER *user, FILE *fp)
             break;
         }
 
-        if (!strcmp(word, "name")) 
+        if (!strcmp(word, "name"))
         {
             user->session = fread_string(fp);
-        }   
-        else if (!strcmp(word, "site")) 
+        }
+        else if (!strcmp(word, "site"))
         {
             user->net.site = fread_string(fp);
-        }   
+        }
         /* OBSOLETE: al, but here to support old MUDix (only F1 to F12) */
         else if (!strcmp(word, "al"))
         {
@@ -491,7 +491,7 @@ static void user_read_old(USER *user, FILE *fp)
             macro->key   = key;
             macro->state = state;
             macro->text  = fread_string(fp);
-        }   
+        }
         /* support for old MUDix alias: nmal */
         else if (!strcmp(word, "nmal") ||
                  !strcmp(word, "alias"))
@@ -506,7 +506,7 @@ static void user_read_old(USER *user, FILE *fp)
             alias->name   = fread_string(fp);
             alias->string = fread_string(fp);
         }
-        else if (!strcmp(word, "tab")) 
+        else if (!strcmp(word, "tab"))
         {
             TAB *tab;
 
@@ -517,7 +517,7 @@ static void user_read_old(USER *user, FILE *fp)
 
             tab->name = fread_string(fp);
         }
-        else if (!strcmp(word, "path")) 
+        else if (!strcmp(word, "path"))
         {
             PATH *path;
 
@@ -529,7 +529,7 @@ static void user_read_old(USER *user, FILE *fp)
             path->name = fread_string(fp);
             path->path = fread_string(fp);
         }
-        else if (!strcmp(word, "var")) 
+        else if (!strcmp(word, "var"))
         {
             VAR *var;
 
@@ -542,7 +542,7 @@ static void user_read_old(USER *user, FILE *fp)
             var->value = fread_string(fp);
         }
         /* support for old MUDix trigger */
-        else if (!strcmp(word, "trig")) 
+        else if (!strcmp(word, "trig"))
         {
             TRIGGER *trigger;
             int      level = atoi(fread_word(fp));
@@ -556,8 +556,8 @@ static void user_read_old(USER *user, FILE *fp)
             trigger->response = fread_string(fp);
 
             trigger->enabled  = TRUE;
-        }   
-        else if (!strcmp(word, "trigger")) 
+        }
+        else if (!strcmp(word, "trigger"))
         {
             TRIGGER *trigger;
             int      level = atoi(fread_word(fp));
@@ -577,8 +577,8 @@ static void user_read_old(USER *user, FILE *fp)
             {
                 trigger->enabled = TRUE;
             }
-        }   
-        else if (!strcmp(word, "timer")) 
+        }
+        else if (!strcmp(word, "timer"))
         {
             TIMER *timer;
             int    relval = atoi(fread_word(fp));
@@ -600,8 +600,8 @@ static void user_read_old(USER *user, FILE *fp)
                 /* reload the timer if the timer was running */
                 timer->timer = relval;
             }
-        }   
-        else if (!strcmp(word, "port")) 
+        }
+        else if (!strcmp(word, "port"))
         {
             char *str = fread_word(fp);
 
@@ -616,47 +616,47 @@ static void user_read_old(USER *user, FILE *fp)
             }
 
             user->net.port = atoi(str);
-        }   
-        else if (!strcmp(word, "winheight")) 
+        }
+        else if (!strcmp(word, "winheight"))
         {
             user->gui_user.win_height = atoi(fread_word(fp));
-        }   
+        }
         else if (!strcmp(word, "winwidth"))
         {
             user->gui_user.win_width = atoi(fread_word(fp));
-        }  
-        else if (!strcmp(word, "winposx")) 
+        }
+        else if (!strcmp(word, "winposx"))
         {
             user->gui_user.win_pos_x = atoi(fread_word(fp));
-        }   
+        }
         else if (!strcmp(word, "winposy"))
         {
             user->gui_user.win_pos_y = atoi(fread_word(fp));
-        }  
-        else if (!strcmp(word, "linemax")) 
+        }
+        else if (!strcmp(word, "linemax"))
         {
             user->gui_user.lines_max = atoi(fread_word(fp));
-        }   
-        else if (!strcmp(word, "prfheight")) 
+        }
+        else if (!strcmp(word, "prfheight"))
         {
             user->gui_pref.pref_height = atoi(fread_word(fp));
-        }   
+        }
         else if (!strcmp(word, "prfwidth"))
         {
             user->gui_pref.pref_width = atoi(fread_word(fp));
-        }  
+        }
         else if (!strcmp(word, "fgcolor"))
         {
             user->gui_user.default_color[DEF_FG].red   = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_FG].green = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_FG].blue  = atoi(fread_word(fp));
-        }  
+        }
         else if (!strcmp(word, "bgcolor"))
         {
             user->gui_user.default_color[DEF_BG].red   = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_BG].green = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_BG].blue  = atoi(fread_word(fp));
-        }  
+        }
         else if (!strcmp(word, "colors"))
         {
             int nrcols = atoi(fread_word(fp));
@@ -714,7 +714,7 @@ static void user_read_general(USER *user, FILE *fp)
 {
     int i;
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -724,67 +724,67 @@ static void user_read_general(USER *user, FILE *fp)
                 break;
         }
 
-        if (!strcmp(word, "Name")) 
+        if (!strcmp(word, "Name"))
         {
             user->session = fread_string(fp);
-        }   
-        else if (!strcmp(word, "Site")) 
+        }
+        else if (!strcmp(word, "Site"))
         {
             user->net.site = fread_string(fp);
-        }   
-        else if (!strcmp(word, "Port")) 
+        }
+        else if (!strcmp(word, "Port"))
         {
             user->net.port = atoi(fread_word(fp));
-        }   
-        else if (!strcmp(word, "Winheight")) 
+        }
+        else if (!strcmp(word, "Winheight"))
         {
             user->gui_user.win_height = atoi(fread_word(fp));
-        }   
+        }
         else if (!strcmp(word, "Winwidth"))
         {
             user->gui_user.win_width = atoi(fread_word(fp));
-        }  
-        else if (!strcmp(word, "Winposx")) 
+        }
+        else if (!strcmp(word, "Winposx"))
         {
             user->gui_user.win_pos_x = atoi(fread_word(fp));
-        }   
+        }
         else if (!strcmp(word, "Winposy"))
         {
             user->gui_user.win_pos_y = atoi(fread_word(fp));
-        }  
-        else if (!strcmp(word, "Linemax")) 
+        }
+        else if (!strcmp(word, "Linemax"))
         {
             user->gui_user.lines_max = atoi(fread_word(fp));
-        }   
-        else if (!strcmp(word, "Spacing")) 
+        }
+        else if (!strcmp(word, "Spacing"))
         {
             user->gui_user.space_above = atoi(fread_word(fp));
             user->gui_user.space_below = atoi(fread_word(fp));
-        }   
-        else if (!strcmp(word, "Wrapmode")) 
+        }
+        else if (!strcmp(word, "Wrapmode"))
         {
             user->gui_user.wrap_mode = atoi(fread_word(fp));
-        }   
-        else if (!strcmp(word, "Prfheight")) 
+        }
+        else if (!strcmp(word, "Prfheight"))
         {
             user->gui_pref.pref_height = atoi(fread_word(fp));
-        }   
+        }
         else if (!strcmp(word, "Prfwidth"))
         {
             user->gui_pref.pref_width = atoi(fread_word(fp));
-        }  
+        }
         else if (!strcmp(word, "Foreground"))
         {
             user->gui_user.default_color[DEF_FG].red   = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_FG].green = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_FG].blue  = atoi(fread_word(fp));
-        }  
+        }
         else if (!strcmp(word, "Background"))
         {
             user->gui_user.default_color[DEF_BG].red   = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_BG].green = atoi(fread_word(fp));
             user->gui_user.default_color[DEF_BG].blue  = atoi(fread_word(fp));
-        }  
+        }
         else if (!strcmp(word, "Colors"))
         {
             int nrcols = atoi(fread_word(fp));
@@ -848,7 +848,7 @@ static void user_read_trigger(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char    *word;
 
@@ -909,7 +909,7 @@ static void user_read_timer(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -963,7 +963,7 @@ static void user_read_alias(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1009,7 +1009,7 @@ static void user_read_macro(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1059,7 +1059,7 @@ static void user_read_path(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1105,7 +1105,7 @@ static void user_read_tab(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1147,7 +1147,7 @@ static void user_read_var(USER *user, FILE *fp)
         return;
     }
 
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1201,7 +1201,7 @@ bool load_user(USER *user, char *file)
     }
 
     found = FALSE;
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1211,54 +1211,54 @@ bool load_user(USER *user, char *file)
                 break;
         }
 
-        if (!strcmp(word, "#USER")) 
+        if (!strcmp(word, "#USER"))
         {
             /* USER block found, old user-file style */
             user_read_old(user, fp);
             found = TRUE;
             break;
         }
-        else if (!strcmp(word, "#GENERAL")) 
+        else if (!strcmp(word, "#GENERAL"))
         {
             /* general block found */
             user_read_general(user, fp);
         }
-        else if (!strcmp(word, "#TRIGGER")) 
+        else if (!strcmp(word, "#TRIGGER"))
         {
             /* trigger block found */
             user_read_trigger(user, fp);
         }
-        else if (!strcmp(word, "#TIMER")) 
+        else if (!strcmp(word, "#TIMER"))
         {
             /* timer block found */
             user_read_timer(user, fp);
         }
-        else if (!strcmp(word, "#ALIAS")) 
+        else if (!strcmp(word, "#ALIAS"))
         {
             /* alias block found */
             user_read_alias(user, fp);
         }
-        else if (!strcmp(word, "#MACRO")) 
+        else if (!strcmp(word, "#MACRO"))
         {
             /* macro block found */
             user_read_macro(user, fp);
         }
-        else if (!strcmp(word, "#PATH")) 
+        else if (!strcmp(word, "#PATH"))
         {
             /* path block found */
             user_read_path(user, fp);
         }
-        else if (!strcmp(word, "#TAB")) 
+        else if (!strcmp(word, "#TAB"))
         {
             /* tab block found */
             user_read_tab(user, fp);
         }
-        else if (!strcmp(word, "#VAR")) 
+        else if (!strcmp(word, "#VAR"))
         {
             /* var block found */
             user_read_var(user, fp);
         }
-        else if (!strcmp(word, "#$")) 
+        else if (!strcmp(word, "#$"))
         {
             /* entire file read */
                 found = TRUE;
@@ -1270,7 +1270,7 @@ bool load_user(USER *user, char *file)
             break;
         }
     }
-  
+
     fclose(fp);
 
     return found;
@@ -1350,7 +1350,7 @@ bool save_user(USER *user)
     fprintf(fp, "#END\n");
 
     /* save all the triggers */
-    for (trig = user->trigger_list; trig; trig = trig->next) 
+    for (trig = user->trigger_list; trig; trig = trig->next)
     {
         fprintf(fp, "\n#TRIGGER\n");
         fprintf(fp, "Input          %s~\n", smash_tilde(trig->input));
@@ -1361,7 +1361,7 @@ bool save_user(USER *user)
     }
 
     /* save all the timers */
-    for (timer = user->timer_list; timer; timer = timer->next) 
+    for (timer = user->timer_list; timer; timer = timer->next)
     {
         if (timer->relcnt != TIMER_ONESHOT)
         {
@@ -1375,16 +1375,16 @@ bool save_user(USER *user)
     }
 
     /* save aliases */
-    for (alias = user->alias_list; alias; alias = alias->next) 
+    for (alias = user->alias_list; alias; alias = alias->next)
     {
         fprintf(fp, "\n#ALIAS\n");
         fprintf(fp, "Name           %s~\n", smash_tilde(alias->name));
         fprintf(fp, "String         %s~\n", smash_tilde(alias->string));
         fprintf(fp, "#END\n");
     }
-            
+
     /* save the macro keys */
-    for (macro = user->macro_list; macro; macro = macro->next) 
+    for (macro = user->macro_list; macro; macro = macro->next)
     {
         fprintf(fp, "\n#MACRO\n");
         fprintf(fp, "Key            %d\n",  macro->key);
@@ -1394,31 +1394,31 @@ bool save_user(USER *user)
     }
 
     /* save paths */
-    for (path = user->path_list; path; path = path->next) 
+    for (path = user->path_list; path; path = path->next)
     {
         fprintf(fp, "\n#PATH\n");
         fprintf(fp, "Name           %s~\n", smash_tilde(path->name));
         fprintf(fp, "Path           %s~\n", smash_tilde(path->path));
         fprintf(fp, "#END\n");
     }
-            
+
     /* save tab completions */
-    for (tabs = user->tabs_list; tabs; tabs = tabs->next) 
+    for (tabs = user->tabs_list; tabs; tabs = tabs->next)
     {
         fprintf(fp, "\n#TAB\n");
         fprintf(fp, "Name           %s~\n", smash_tilde(tabs->name));
         fprintf(fp, "#END\n");
     }
-            
+
     /* save variables */
-    for (var = user->vars_list; var; var = var->next) 
+    for (var = user->vars_list; var; var = var->next)
     {
         fprintf(fp, "\n#VAR\n");
         fprintf(fp, "Name           %s~\n", smash_tilde(var->name));
         fprintf(fp, "Value          %s~\n", smash_tilde(var->value));
         fprintf(fp, "#END\n");
     }
-            
+
     fprintf(fp, "\n#$");
     fclose(fp);
 
@@ -1438,7 +1438,7 @@ bool user_read_info(char *path, char **name, char **site, guint *port)
     }
 
     found = FALSE;
-    while (1) 
+    while (1)
     {
         char *word;
 
@@ -1449,20 +1449,20 @@ bool user_read_info(char *path, char **name, char **site, guint *port)
         }
 
         /* support for both old and new-style user-file */
-        if (!strcmp(word, "#USER") || !strcmp(word, "#GENERAL")) 
+        if (!strcmp(word, "#USER") || !strcmp(word, "#GENERAL"))
         {
             /* USER/GENERAL block found :) */
             found = TRUE;
         }
-        else if (!strcmp(word, "name") || !strcmp(word, "Name")) 
+        else if (!strcmp(word, "name") || !strcmp(word, "Name"))
         {
             *name = fread_string(fp);
-        }   
-        else if (!strcmp(word, "site") || !strcmp(word, "Site")) 
+        }
+        else if (!strcmp(word, "site") || !strcmp(word, "Site"))
         {
             *site = fread_string(fp);
-        }   
-        else if (!strcmp(word, "port") || !strcmp(word, "Port")) 
+        }
+        else if (!strcmp(word, "port") || !strcmp(word, "Port"))
         {
             char *str = fread_word(fp);
 
@@ -1478,7 +1478,7 @@ bool user_read_info(char *path, char **name, char **site, guint *port)
 
             *port = atoi(str);
             break;  /* we know that port is the LAST to read, so break */
-        }   
+        }
         else
         {
             if (feof(fp))
@@ -1492,10 +1492,8 @@ bool user_read_info(char *path, char **name, char **site, guint *port)
             }
         }
     }
-  
+
     fclose(fp);
 
     return found;
 }
-
-

@@ -182,7 +182,7 @@ static void gui_main_dialog_new(void)
     entry2 = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), entry2, FALSE, FALSE, 5);
     gtk_entry_set_max_length(GTK_ENTRY(entry2), 100);
-  
+
     label = gtk_label_new("Port number:");
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label, FALSE, FALSE, 0);
 
@@ -210,7 +210,7 @@ static void gui_main_dialog_new(void)
     /* create an entry for the login response */
     entry4 = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), entry4, FALSE, FALSE, 5);
-  
+
     label = gtk_label_new("Password trigger:");
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label, FALSE, FALSE, 0);
 
@@ -224,7 +224,7 @@ static void gui_main_dialog_new(void)
     /* create an entry for the password response */
     entry6 = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), entry6, FALSE, FALSE, 5);
-  
+
     gtk_widget_show_all(dialog);
 
     /* get the response from the dialog */
@@ -472,7 +472,7 @@ static gboolean gui_main_row_do_update(GtkTreeModel *model,
         if (stat(path, &buf))
         {
             /* something must be wrong - I thought we just saved the file? ;) */
-            return FALSE;            
+            return FALSE;
         }
 
         /* hack off the annoying '\n' from ctime */
@@ -591,7 +591,7 @@ static GtkTreeModel *gui_main_create_model(int *latest)
         /* set latest to -1 */
         *latest = -1;
     }
-    else 
+    else
     {
         int count = 0;
 
@@ -751,7 +751,7 @@ void gui_main_update_row(USER *user)
     /* check if the main window is still open */
     if (gui_main_window)
     {
-        gtk_tree_model_foreach(gui_main_model, 
+        gtk_tree_model_foreach(gui_main_model,
                                (GtkTreeModelForeachFunc)gui_main_row_do_update,
                                user);
     }
@@ -781,7 +781,7 @@ void gui_setup_main_window(void)
 
     /* create the main window */
     gui_main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(gui_main_window), 
+    gtk_window_set_title(GTK_WINDOW(gui_main_window),
                          "gMUDix v" VERSION " by M. Boomstra");
     g_signal_connect(G_OBJECT(gui_main_window), "destroy",
                      G_CALLBACK(gui_destroy_main_window_callback), NULL);
@@ -819,7 +819,7 @@ void gui_setup_main_window(void)
     g_object_unref(G_OBJECT(gui_main_model));
 
     g_signal_connect(G_OBJECT(view), "row-activated",
-                     G_CALLBACK(gui_main_row_selected), NULL);    
+                     G_CALLBACK(gui_main_row_selected), NULL);
 
     /* add columns to the tree view */
     gui_main_add_columns(GTK_TREE_VIEW(view));
@@ -838,9 +838,9 @@ void gui_setup_main_window(void)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -850,9 +850,9 @@ void gui_setup_main_window(void)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -862,9 +862,9 @@ void gui_setup_main_window(void)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -873,9 +873,9 @@ void gui_setup_main_window(void)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 2);
@@ -884,9 +884,9 @@ void gui_setup_main_window(void)
     gtk_button_set_use_underline(GTK_BUTTON(button) , TRUE);
     /* activate is when the mnemonic key is pressed. */
     g_signal_connect(G_OBJECT(button), "activate",
-                     G_CALLBACK(gui_main_button_release), view);    
+                     G_CALLBACK(gui_main_button_release), view);
     g_signal_connect(G_OBJECT(button), "released",
-                     G_CALLBACK(gui_destroy_main_window_callback), NULL);    
+                     G_CALLBACK(gui_destroy_main_window_callback), NULL);
 
     /* put the button inside the horizontal box */
     gtk_box_pack_start(GTK_BOX(bbox), button, TRUE, TRUE, 2);
@@ -906,7 +906,7 @@ void init_gui(int argc, char *argv[])
 
     /* initialize gtk */
     gtk_init(&argc, &argv);
-   
+
     /* set up the main user selector window */
     gui_setup_main_window();
 

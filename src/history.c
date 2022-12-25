@@ -29,7 +29,7 @@ void init_history(USER *user)
     HISTORY   *hist;
     int        i;
 
-    for (i=0; i<MAX_HISTORY; i++) 
+    for (i=0; i<MAX_HISTORY; i++)
     {
         hist = malloc(sizeof(HISTORY));
 
@@ -72,7 +72,7 @@ void cleanup_history(USER *user)
         {
             free(pHist->str);
         }
-    
+
         free(pHist);
     }
 }
@@ -112,7 +112,7 @@ void add_to_history(USER *user, gchar *input)
     user->pGetHist      = user->pCurHist = user->pCurHist->next;
 
     /* set the drag down menu */
-    for (pHist  = user->pCurHist->prev; 
+    for (pHist  = user->pCurHist->prev;
          pHist != user->pCurHist && pHist->str;
          pHist  = pHist->prev)
     {
@@ -121,4 +121,3 @@ void add_to_history(USER *user, gchar *input)
 
     gtk_combo_set_popdown_strings(GTK_COMBO(user->gui_user.g_combo), items);
 }
-

@@ -104,9 +104,9 @@ void free_tab(USER *user, TAB *pTabs)
     }
     else
     {
-        for (tabs = user->tabs_list; tabs; tabs = tabs->next) 
+        for (tabs = user->tabs_list; tabs; tabs = tabs->next)
         {
-    	    if (tabs->next == pTabs) 
+    	    if (tabs->next == pTabs)
             {
                 tabs->next = pTabs->next;
                 break;
@@ -142,7 +142,7 @@ void check_tab(USER *user, gchar *buffer)
     TAB   *tabs;
     gchar *pName;
     int    i = 0, len = 1;
- 
+
     /* TODO: change this for UTF8? */
     pName = buffer + strlen(buffer);
     pName--;
@@ -157,7 +157,7 @@ void check_tab(USER *user, gchar *buffer)
 	pName--;
     }
 
-    for (tabs = user->tabs_list; tabs; tabs = tabs->next) 
+    for (tabs = user->tabs_list; tabs; tabs = tabs->next)
     {
 	for (i=0; i<len; i++)
         {
@@ -177,7 +177,7 @@ void check_tab(USER *user, gchar *buffer)
     {
 	return;
     }
-   
+
     /* new string too large? */
     if (strlen(buffer) + strlen(&tabs->name[i]) >= MAX_INPUT_LEN)
     {

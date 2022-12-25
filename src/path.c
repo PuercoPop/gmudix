@@ -107,9 +107,9 @@ void free_path(USER *user, PATH *pPath)
     }
     else
     {
-        for (path = user->path_list; path; path = path->next) 
+        for (path = user->path_list; path; path = path->next)
         {
-    	    if (path->next == pPath) 
+    	    if (path->next == pPath)
             {
                 path->next = pPath->next;
                 break;

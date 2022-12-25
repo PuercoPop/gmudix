@@ -67,7 +67,7 @@ TRIGGER *new_trigger(USER *user, int level)
     {
         return NULL;
     }
-     
+
     trigger->next      = user->trigger_list;
     user->trigger_list = trigger;
 
@@ -129,9 +129,9 @@ void free_trigger(USER *user, TRIGGER *trigger)
     }
     else
     {
-        for (lookup = user->trigger_list; lookup; lookup = lookup->next) 
+        for (lookup = user->trigger_list; lookup; lookup = lookup->next)
         {
-            if (lookup->next == trigger) 
+            if (lookup->next == trigger)
             {
                 lookup->next = trigger->next;
                 break;
@@ -170,7 +170,7 @@ TRIGGER *trig_lookup(USER *user, TRIGGER *beg, int level)
 {
     TRIGGER *trig;
 
-    for (trig = (beg? beg: user->trigger_list); trig; trig = trig->next) 
+    for (trig = (beg? beg: user->trigger_list); trig; trig = trig->next)
     {
         if (trig->level == level)
         {
@@ -201,15 +201,15 @@ void trigger_check(USER *user, bool fNewline)
         return;
     }
 
-    for (trig = user->trigger_list; trig; trig = trig->next) 
+    for (trig = user->trigger_list; trig; trig = trig->next)
     {
-        /* 
-         * skip if this trigger is disabled or 
+        /*
+         * skip if this trigger is disabled or
          * if level < 0 and it's a newline trigger or
-         * if level >= 0 and it's not a newline trigger 
+         * if level >= 0 and it's not a newline trigger
          */
-        if ( !trig->enabled 
-          || (trig->level < 0 && fNewline) 
+        if ( !trig->enabled
+          || (trig->level < 0 && fNewline)
           || (trig->level >= 0 && !fNewline))
         {
             continue;
@@ -320,7 +320,7 @@ void trigger_check(USER *user, bool fNewline)
             /* advance pointer */
             pBuf = g_utf8_next_char(pBuf);
 
-            if (cTrg == '\0') 
+            if (cTrg == '\0')
             {
                 /* trigger reached the end of its buffer */
                 if (pArg != trig->pArg && !pMrk)
@@ -365,7 +365,7 @@ void trigger_check(USER *user, bool fNewline)
     if (fNewline || fReset)
     {
         user->trigger = user->trigger_buf;
-    } 
+    }
 
     return;
 }
