@@ -148,7 +148,7 @@ static gboolean gui_color_button(GtkWidget      *widget,
 
 static void gui_color_button_release(GtkButton *button, USER *user)
 {
-    G_CONST_RETURN gchar *label = gtk_button_get_label(button);
+    const gchar *label = gtk_button_get_label(button);
 
     if (!strcmp(label, BUTTON_DEFAULT))
     {

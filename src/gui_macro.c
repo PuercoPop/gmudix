@@ -59,7 +59,7 @@ static gboolean gui_macro_key(GtkWidget    *widget,
 
 static void gui_macro_button_release(GtkButton *button, USER *user)
 {
-    G_CONST_RETURN gchar *label = gtk_button_get_label(button);
+    const gchar *label = gtk_button_get_label(button);
 
     if (!strcmp(label, BUTTON_NEW))
     {

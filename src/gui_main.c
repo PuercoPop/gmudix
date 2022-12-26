@@ -225,8 +225,8 @@ static void gui_main_dialog_new(void)
 
     if (response == GTK_RESPONSE_OK)
     {
-        G_CONST_RETURN gchar *input1;
-        G_CONST_RETURN gchar *input2;
+        const gchar *input1;
+        const gchar *input2;
                        int    port;
 
         /* grab the user input */
@@ -350,7 +350,7 @@ static void gui_main_dialog_new(void)
 
 static void gui_main_button_release(GtkButton *button, GtkTreeView *treeview)
 {
-    G_CONST_RETURN gchar *label = gtk_button_get_label(button);
+    const gchar *label = gtk_button_get_label(button);
 
     if (!strcmp(label, BUTTON_CONNECT))
     {

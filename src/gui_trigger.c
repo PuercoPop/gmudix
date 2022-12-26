@@ -52,7 +52,7 @@ static GtkTreeView *gui_trigger_get_treeview(USER *user)
 
 static void gui_trigger_button_release(GtkButton *button, USER *user)
 {
-    G_CONST_RETURN gchar *label = gtk_button_get_label(button);
+    const gchar *label = gtk_button_get_label(button);
 
     if (!strcmp(label, BUTTON_NEW))
     {

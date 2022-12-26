@@ -111,7 +111,7 @@ static gboolean gui_gen_entry_string(GtkEntry         *entry,
                                      GdkEventFocus    *event,
                                      gchar           **string)
 {
-    G_CONST_RETURN gchar *text;
+    const gchar *text;
                    USER  *user;
 
     /* first lock the mutex - required for site update */

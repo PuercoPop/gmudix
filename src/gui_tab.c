@@ -39,7 +39,7 @@ typedef enum
 
 static void gui_tab_button_release(GtkButton *button, USER *user)
 {
-    G_CONST_RETURN gchar *label = gtk_button_get_label(button);
+    const gchar *label = gtk_button_get_label(button);
 
     if (!strcmp(label, BUTTON_NEW))
     {

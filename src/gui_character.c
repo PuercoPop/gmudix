@@ -214,7 +214,7 @@ static gboolean gui_char_entry_unichar(GtkEntry         *entry,
                                        GdkEventFocus    *event,
                                        gunichar         *value)
 {
-    G_CONST_RETURN gchar *text;
+    const gchar *text;
 
     text = gtk_entry_get_text(entry);
 
@@ -228,7 +228,7 @@ static gboolean gui_char_entry_string(GtkEntry         *entry,
                                       GdkEventFocus    *event,
                                       gchar           **string)
 {
-    G_CONST_RETURN gchar *text;
+    const gchar *text;
 
     text = gtk_entry_get_text(entry);
 
