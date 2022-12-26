@@ -172,7 +172,8 @@ static NET_CODE do_connect(char *site, int port, int *sock, int *addr, char **ho
         return NET_NO_SOCKET;
     }
 
-    memcpy(&server.sin_addr, host->h_addr, host->h_length);
+    size_t h_length = strlen(host->h_addr_list[0]);
+    memcpy(&server.sin_addr, host->h_addr_list[0], h_length);
     server.sin_family = host->h_addrtype;
     server.sin_port   = htons((unsigned short)port);
 
