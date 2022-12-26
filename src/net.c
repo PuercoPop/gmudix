@@ -20,17 +20,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#if !defined(WIN32)
-  #include <netdb.h>
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <arpa/telnet.h>
-  #include <unistd.h>
-#else
-  #include <io.h>
-  #include <windows.h>
-  #include <winbase.h>
-#endif
+#include <netdb.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/telnet.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include "mudix.h"
 #include "gui.h"
@@ -65,14 +59,8 @@ int read_data(USER *user)
     g_mutex_lock(user_network_mutex);
 
     /* read the data from the socket */
-#if !defined(WIN32)
     nRead = read(user->net.sock, user->net.rxp,
                  RXBUF_LENGTH - (user->net.rxp - user->net.rxbuf));
-#else
-    nRead = recv(user->net.sock, user->net.rxp,
-                 RXBUF_LENGTH - (user->net.rxp - user->net.rxbuf), 0);
-#endif
-
     /* unlock the mutex */
     g_mutex_unlock(user_network_mutex);
 
@@ -85,12 +73,8 @@ int read_data(USER *user)
     {
         gui_user_disconnect(user);
     }
-#if !defined(WIN32)
     /* also disconnect if nRead < 0 and errno is not EWOULDBLOCK and EAGAIN */
     else if (errno != EWOULDBLOCK && errno != EAGAIN)
-#else
-    else if (nRead == SOCKET_ERROR)
-#endif
     {
         gui_user_disconnect(user);
     }
@@ -137,21 +121,13 @@ int write_data(USER *user, gchar *buffer, int len)
                 if ((unsigned char)*pStr == IAC)
                 {
                     /* send data upto the IAC */
-#if !defined(WIN32)
                     if ((nrWrite = write(user->net.sock, pMrk, pStr-pMrk+1)) < 0)
-#else
-                    if ((nrWrite = send(user->net.sock, pMrk, pStr-pMrk+1, 0)) < 0)
-#endif
                     {
                         break;
                     }
 
                     /* send an extra IAC */
-#if !defined(WIN32)
                     if ((nrWrite = write(user->net.sock, pStr, 1)) < 0)
-#else
-                    if ((nrWrite = send(user->net.sock, pStr, 1, 0)) < 0)
-#endif
                     {
                         break;
                     }
@@ -164,11 +140,7 @@ int write_data(USER *user, gchar *buffer, int len)
 
             if (pMrk != pStr)
             {
-#if !defined(WIN32)
                  nrWrite = write(user->net.sock, pMrk, pStr-pMrk);
-#else
-                 nrWrite = send(user->net.sock, pMrk, pStr-pMrk, 0);
-#endif
             }
 
             /* finally free the temporary conversion buffer */
@@ -213,19 +185,10 @@ static NET_CODE do_connect(char *site, int port, int *sock, int *addr, char **ho
         return NET_CONNECT_FAILURE;
     }
 
-#if !defined(WIN32)
     if (fcntl(*sock, F_SETFL, O_NDELAY) == -1)
     {
         perror("fcntl: O_NDELAY (fatal?)");
     }
-#else
-    {
-      unsigned long value = 1;
-
-      ioctlsocket(*sock, FIONBIO, &value);
-    }
-#endif
-
     return NET_CONNECTED;
 }
 
